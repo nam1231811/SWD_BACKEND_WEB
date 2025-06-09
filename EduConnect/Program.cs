@@ -26,7 +26,6 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<JwtService>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
-//them 
 //cau hinh JWT
 builder.Services.AddAuthentication(options =>
 {
