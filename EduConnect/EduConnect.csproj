@@ -26,4 +26,13 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\Classes\" />
+    <Folder Include="Controllers\AIChatBot\" />
+    <Folder Include="Controllers\Notifications\" />
+    <Folder Include="Controllers\Subject\" />
+    <Folder Include="Controllers\Teacher\" />
+    <Folder Include="Controllers\Parent\" />
+  </ItemGroup>
+
 </Project>

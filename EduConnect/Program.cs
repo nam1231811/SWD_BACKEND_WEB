@@ -1,5 +1,5 @@
 using EduConnect.Data;
-using EduConnect.Models.User;
+using EduConnect.Models;
 using EduConnect.Repositories;
 using EduConnect.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

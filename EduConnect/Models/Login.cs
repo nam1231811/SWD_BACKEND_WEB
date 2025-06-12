@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EduConnect.Models.User
+namespace EduConnect.Models
 {
     public class Login
     {
