@@ -1,4 +1,4 @@
-﻿using EduConnect.Models.User;
+﻿using EduConnect.Models;
 
 namespace EduConnect.Repositories
 {

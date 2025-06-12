@@ -1,5 +1,5 @@
 ﻿using EduConnect.Data;
-using EduConnect.Models.User;
+using EduConnect.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace EduConnect.Repositories

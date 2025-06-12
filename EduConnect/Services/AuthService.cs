@@ -1,4 +1,4 @@
-﻿using EduConnect.Models.User;
+﻿using EduConnect.Models;
 using EduConnect.Repositories;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
