@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EduConnect.Models
+namespace EduConnect.DTO
 {
     public class Register
     {

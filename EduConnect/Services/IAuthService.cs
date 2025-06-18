@@ -1,5 +1,4 @@
-﻿using EduConnect.Models;
-
+﻿using EduConnect.DTO;
 using Microsoft.AspNetCore.Identity.Data;
 
 namespace EduConnect.Services

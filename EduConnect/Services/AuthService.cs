@@ -1,4 +1,5 @@
-﻿using EduConnect.Models;
+﻿using EduConnect.DTO;
+using EduConnect.Entities;
 using EduConnect.Repositories;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;

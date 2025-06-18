@@ -1,4 +1,4 @@
-﻿using EduConnect.Models;
+﻿using EduConnect.Entities;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -25,7 +25,7 @@ namespace EduConnect.Services
             var claims = new[]
             {
             new Claim(ClaimTypes.Email, user.Email),
-            new Claim("UserId", user.Id.ToString())
+            new Claim("UserId", user.UserId.ToString())
         };
 
             //tao token

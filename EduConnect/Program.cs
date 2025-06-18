@@ -1,5 +1,4 @@
 using EduConnect.Data;
-using EduConnect.Models;
 using EduConnect.Repositories;
 using EduConnect.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -8,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
+using EduConnect.Entities;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);

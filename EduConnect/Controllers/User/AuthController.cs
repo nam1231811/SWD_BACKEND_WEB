@@ -1,5 +1,4 @@
-﻿using EduConnect.Models;
-using EduConnect.Models.User;
+﻿using EduConnect.DTO;
 using EduConnect.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
