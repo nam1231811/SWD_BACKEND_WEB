@@ -21,11 +21,14 @@ namespace EduConnect.Services
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
+            //mac dinh k co role thi la parent
+            var role = string.IsNullOrWhiteSpace(user.Role) ? "Parent" : user.Role;
             //dua thong tin vao token
             var claims = new[]
             {
             new Claim(ClaimTypes.Email, user.Email),
-            new Claim("UserId", user.UserId.ToString())
+            new Claim("UserId", user.UserId.ToString()),
+            new Claim(ClaimTypes.Role, role)
         };
 
             //tao token
