@@ -12,6 +12,12 @@ namespace EduConnect.Repositories
             _context = context;
         }
 
+        public async Task AddParentAsync(Parent parent)
+        {
+            _context.Parents.Add(parent);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task AddUserAsync(User user)
         {
             _context.Users.Add(user);

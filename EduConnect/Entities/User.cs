@@ -12,6 +12,8 @@ public partial class User
     public bool? IsActive { get; set; }
 
     public string? FullName { get; set; }
+    public string? FirstName { get; set; }
+    public string? LastName { get; set; }
 
     public DateTime? CreateAt { get; set; }
 

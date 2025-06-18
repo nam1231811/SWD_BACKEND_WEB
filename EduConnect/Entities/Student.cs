@@ -6,7 +6,7 @@ namespace EduConnect.Entities;
 
 public partial class Student
 {
-    [Key] public String StudentId { get; set; } = Guid.NewGuid().ToString();
+    [Key] public String StudentId { get; set; } 
 
     public String? ParentId { get; set; }
 
