@@ -6,5 +6,6 @@ namespace EduConnect.Repositories
         Task<User?> GetByEmailAsync(string email);
         Task AddUserAsync(User user);
         Task AddParentAsync(Parent parent);
+        Task UpdateAsync(User user);
     }
 }
