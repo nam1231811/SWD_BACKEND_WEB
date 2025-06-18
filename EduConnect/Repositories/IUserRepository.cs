@@ -1,5 +1,4 @@
-﻿using EduConnect.Models;
-
+﻿using EduConnect.Entities;
 namespace EduConnect.Repositories
 {
     public interface IUserRepository
