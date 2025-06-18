@@ -28,5 +28,11 @@ namespace EduConnect.Repositories
         {
             return await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
         }
+
+        public async Task UpdateAsync(User user)
+        {
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+        }
     }
 }
