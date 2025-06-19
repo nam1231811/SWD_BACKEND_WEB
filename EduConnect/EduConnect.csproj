@@ -32,7 +32,6 @@
     <Folder Include="Controllers\Notifications\" />
     <Folder Include="Controllers\Subject\" />
     <Folder Include="Controllers\Teacher\" />
-    <Folder Include="Controllers\Parent\" />
   </ItemGroup>
 
 </Project>
