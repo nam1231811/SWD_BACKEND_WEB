@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -33,7 +33,7 @@
     <Folder Include="Controllers\AIChatBot\" />
     <Folder Include="Controllers\Notifications\" />
     <Folder Include="Controllers\Subject\" />
-	<Folder Include="Controllers\Teacher\" />
+	  <Folder Include="Controllers\Teacher\" />
     <Folder Include="Controllers\Parent\" />
   </ItemGroup>
 

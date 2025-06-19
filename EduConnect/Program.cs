@@ -28,6 +28,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<JwtService>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+builder.Services.AddScoped<IParentRepository, ParentRepository>();
+builder.Services.AddScoped<IParentService, ParentService>();
 
 //cau hinh JWT
 builder.Services.AddAuthentication(options =>
@@ -80,10 +82,12 @@ builder.Services.AddSwaggerGen(c =>
     // them cau hinh JWT va hien Authorize
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        Name = "Authorization",                 // ten header chua token
-        Type = SecuritySchemeType.ApiKey,      // dung apikey
-        In = ParameterLocation.Header,          // Token truyen trong header
-        Description = "Enter Token JWT, do not need Bearer"
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,              
+        Scheme = "Bearer",                            
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Enter 'Bearer {your JWT token}'"
     });
 
     
@@ -130,6 +134,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowAll");
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
