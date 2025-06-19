@@ -1,7 +1,8 @@
-using EduConnect.Data;
+﻿using EduConnect.Data;
 using EduConnect.Entities;
 using EduConnect.Repositories;
 using EduConnect.Services;
+using EduConnect.Mappings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -101,6 +102,20 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
+
+// Add services to the container.
+builder.Services.AddControllers();
+
+// 🔑 Thêm AutoMapper
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+// Các services khác
+builder.Services.AddScoped<ITeacherService, TeacherService>();
+
+// Swagger (nếu có)
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
