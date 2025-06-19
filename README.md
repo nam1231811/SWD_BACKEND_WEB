@@ -14,10 +14,10 @@ Swagger UI for API testing
 
 ✅Packages
 Microsoft.AspNetCore.Identity.EntityFrameworkCore
-
 Microsoft.AspNetCore.Authentication.JwtBearer
-
 Microsoft.EntityFrameworkCore.SqlServer
-
 Swashbuckle.AspNetCore
+Microsoft.AspNetCore.Identity
+Microsoft.EntityFrameworkCore.Design
+Microsoft.EntityFrameworkCore.Tools
 
