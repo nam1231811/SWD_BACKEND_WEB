@@ -1,10 +1,12 @@
 ﻿using EduConnect.DTO;
 using EduConnect.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduConnect.Controllers.Parent
 {
+    [Authorize(Roles = "Parent")]
     [Route("api/[controller]")]
     [ApiController]
     public class ParentController : ControllerBase
