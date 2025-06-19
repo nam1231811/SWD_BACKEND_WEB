@@ -6,7 +6,7 @@ namespace EduConnect.Entities;
 
 public partial class Teacher
 {
-    [Key] public String TeacherId { get; set; } = Guid.NewGuid().ToString();
+    [Key] public String TeacherId { get; set; }
     public String? UserId { get; set; }
     public String? SubjectId { get; set; }
     public TimeOnly? StartTime { get; set; }
