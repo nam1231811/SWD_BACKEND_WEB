@@ -12,7 +12,7 @@ public partial class Parent
 
     public virtual ICollection<ChatBotLog> ChatBotLogs { get; set; } = new List<ChatBotLog>();
 
-    public virtual ICollection<Student> Students { get; set; } = new List<Student>();
+    public virtual ICollection<Student?> Students { get; set; } = new List<Student>();
 
     public virtual User? User { get; set; }
 }
