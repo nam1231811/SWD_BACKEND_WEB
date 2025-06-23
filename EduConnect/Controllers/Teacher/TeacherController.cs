@@ -30,11 +30,11 @@ namespace EduConnect.Controllers.Teacher
             Ok(await _service.GetAsync(search, sortBy, sortDirection, status, page, pageSize)); // Lấy danh sách có tìm kiếm, sắp xếp
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateTeacherDTO dto) =>
+        public async Task<IActionResult> Create([FromBody] CreateTeacher dto) =>
             Ok(await _service.CreateAsync(dto)); // Tạo mới giáo viên
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(string id, [FromBody] UpdateTeacherDTO dto) =>
+        public async Task<IActionResult> Update(string id, [FromBody] UpdateTeacher dto) =>
             await _service.UpdateAsync(id, dto) ? Ok() : NotFound(); // Cập nhật
 
         [HttpDelete("{id}")]
