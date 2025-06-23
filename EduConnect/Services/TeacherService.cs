@@ -17,13 +17,13 @@ namespace EduConnect.Services
             _mapper = mapper;
         }
 
-        public async Task<TeacherDTO> GetByIdAsync(string id)
+        public async Task<DTO.Teacher> GetByIdAsync(string id)
         {
             var teacher = await _context.Teachers.FindAsync(id); // Tìm giáo viên theo ID
-            return teacher == null ? null : _mapper.Map<TeacherDTO>(teacher); // Nếu không có thì trả null
+            return teacher == null ? null : _mapper.Map<DTO.Teacher>(teacher); // Nếu không có thì trả null
         }
 
-        public async Task<PagedResult<TeacherDTO>> GetAsync(string? search, string? sortBy, string? sortDirection, string? status, int page, int pageSize)
+        public async Task<PagedResult<DTO.Teacher>> GetAsync(string? search, string? sortBy, string? sortDirection, string? status, int page, int pageSize)
         {
             var query = _context.Teachers.AsQueryable(); // Truy vấn bảng Teachers
 
@@ -53,20 +53,20 @@ namespace EduConnect.Services
 
             var total = await query.CountAsync(); // Tổng số kết quả
             var items = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync(); // Phân trang
-            var mapped = _mapper.Map<IEnumerable<TeacherDTO>>(items); // Map sang DTO
+            var mapped = _mapper.Map<IEnumerable<DTO.Teacher>>(items); // Map sang DTO
 
-            return new PagedResult<TeacherDTO> { TotalItems = total, Items = mapped }; // Trả về kết quả
+            return new PagedResult<DTO.Teacher> { TotalItems = total, Items = mapped }; // Trả về kết quả
         }
 
-        public async Task<TeacherDTO> CreateAsync(CreateTeacherDTO dto)
+        public async Task<DTO.Teacher> CreateAsync(CreateTeacher dto)
         {
-            var teacher = _mapper.Map<Teacher>(dto); // Map DTO sang entity
+            var teacher = _mapper.Map<Entities.Teacher>(dto); // Map DTO sang entity
             _context.Teachers.Add(teacher); // Thêm vào DbSet
             await _context.SaveChangesAsync(); // Lưu thay đổi
-            return _mapper.Map<TeacherDTO>(teacher); // Trả về DTO
+            return _mapper.Map<DTO.Teacher>(teacher); // Trả về DTO
         }
 
-        public async Task<bool> UpdateAsync(string id, UpdateTeacherDTO dto)
+        public async Task<bool> UpdateAsync(string id, UpdateTeacher dto)
         {
             var teacher = await _context.Teachers.FindAsync(id); // Tìm giáo viên
             if (teacher == null) return false;

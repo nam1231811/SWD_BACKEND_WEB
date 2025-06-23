@@ -1,7 +1,8 @@
 ﻿namespace EduConnect.DTO
 {
-    public class CreateTeacherDTO
+    public class Teacher
     {
+        public string TeacherId { get; set; }
         public string? UserId { get; set; }
         public string? SubjectId { get; set; }
         public string? StartTime { get; set; }
