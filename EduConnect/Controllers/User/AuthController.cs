@@ -43,5 +43,19 @@ namespace EduConnect.Controllers.User
 
             return Ok(new { token });
         }
+
+        //reset mat khau
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPassword dto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _authService.ResetPasswordAsync(dto);
+            if (!result)
+                return NotFound("Email not found");
+
+            return Ok("Password reset sucessfully.");
+        }
     }
 }
