@@ -99,5 +99,15 @@ namespace EduConnect.Services
             }
             return "User registered successfully.";
         }
+
+        public async Task<bool> ResetPasswordAsync(ResetPassword dto)
+        {
+            var user = await _userRepository.GetByEmailAsync(dto.Email);
+            if (user == null) return false;
+
+            user.PasswordHash = _passwordHasher.HashPassword(user, dto.NewPassword);
+            await _userRepository.UpdateAsync(user);
+            return true;
+        }
     }
 }

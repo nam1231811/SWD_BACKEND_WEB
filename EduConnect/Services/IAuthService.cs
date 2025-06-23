@@ -7,5 +7,7 @@ namespace EduConnect.Services
     {
         Task<string?> LoginAsync(Login request);
         Task<string> RegisterAsync(Register request);
+
+        Task<bool> ResetPasswordAsync(ResetPassword dto);
     }
 }

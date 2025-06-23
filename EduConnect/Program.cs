@@ -31,6 +31,7 @@ builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddScoped<IParentRepository, ParentRepository>();
 builder.Services.AddScoped<IParentService, ParentService>();
 
+
 //cau hinh JWT
 builder.Services.AddAuthentication(options =>
 {
