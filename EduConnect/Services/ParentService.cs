@@ -19,6 +19,24 @@ namespace EduConnect.Services
             _userRepository = userRepository;
         }
 
+        public async Task<ParentProfile?> GetProfileAsync(string email)
+        {
+            var parent = await _parentRepository.GetByEmailAsync(email);
+            if (parent == null || parent.User == null)
+            { 
+                return null; 
+            }
+
+            return new ParentProfile
+            {
+                ParentId = parent.ParentId,
+                UserId = parent.UserId,
+                FullName = parent.User.FullName,
+                Email = parent.User.Email,
+                PhoneNumber = parent.User.PhoneNumber
+            };
+        }
+
         public async Task<List<StudentInfo>> GetStudentInfoAsync(string email)
         {
             //tim parent theo userId
