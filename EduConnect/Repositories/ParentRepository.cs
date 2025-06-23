@@ -13,11 +13,12 @@ namespace EduConnect.Repositories
             _context = context;
         }
 
+    
+
         //tim 
         public async Task<Parent?> GetByEmailAsync(string email)
         {
             return await _context.Parents
-                .Include(p => p.Students)
                 .Include(p => p.User)
                 .FirstOrDefaultAsync(p => p.User != null && p.User.Email == email);
         }

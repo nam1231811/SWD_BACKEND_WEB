@@ -7,5 +7,6 @@ namespace EduConnect.Services
     {
         Task<List<StudentInfo>> GetStudentInfoAsync(string email);
         Task<bool> UpdateProfileAsync(string email, UpdateParentProfile dto);
+        Task<ParentProfile> GetProfileAsync(string email);
     }
 }
