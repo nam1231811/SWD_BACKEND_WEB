@@ -11,7 +11,7 @@ public partial class Course
 
     public String? TeacherId { get; set; }
 
-    public String? TermId { get; set; }
+    public String? SemeId { get; set; }
 
     public TimeOnly? StartTime { get; set; }
 
@@ -25,5 +25,5 @@ public partial class Course
 
     public virtual Teacher? Teacher { get; set; }
 
-    public virtual Term? Term { get; set; }
+    public virtual Semester? Term { get; set; }
 }

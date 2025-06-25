@@ -38,6 +38,8 @@ public partial class AppDbContext : DbContext
 
     public virtual DbSet<Teacher> Teachers { get; set; }
 
+    public virtual DbSet<Semester> Semesters { get; set; }
+
     public virtual DbSet<Term> Terms { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
@@ -144,7 +146,7 @@ public partial class AppDbContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("status");
             entity.Property(e => e.TeacherId).HasColumnName("teacherID");
-            entity.Property(e => e.TermId).HasColumnName("termID");
+            entity.Property(e => e.SemeId).HasColumnName("semeID");
 
             entity.HasOne(d => d.Class).WithMany(p => p.Courses)
                 .HasForeignKey(d => d.ClassId)
@@ -155,7 +157,7 @@ public partial class AppDbContext : DbContext
                 .HasConstraintName("FK__Course__teacherI__5070F446");
 
             entity.HasOne(d => d.Term).WithMany(p => p.Courses)
-                .HasForeignKey(d => d.TermId)
+                .HasForeignKey(d => d.SemeId)
                 .HasConstraintName("FK__Course__termID__5165187F");
         });
 
@@ -183,24 +185,40 @@ public partial class AppDbContext : DbContext
 
             entity.Property(e => e.NotiId).HasColumnName("notiID");
             entity.Property(e => e.ClassId).HasColumnName("classID");
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime")
-                .HasColumnName("createdAt");
-            entity.Property(e => e.Description)
-                .HasColumnType("text")
-                .HasColumnName("description");
-            entity.Property(e => e.EndDate)
-                .HasColumnType("datetime")
-                .HasColumnName("endDate");
-            entity.Property(e => e.StartDate)
-                .HasColumnType("datetime")
-                .HasColumnName("startDate");
             entity.Property(e => e.TeacherId).HasColumnName("teacherID");
+            entity.Property(e => e.TermId).HasColumnName("termID");
+
             entity.Property(e => e.Title)
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("title");
+
+            entity.Property(e => e.Description)
+                .HasColumnType("text")
+                .HasColumnName("description");
+
+            entity.Property(e => e.StartDate)
+                .HasColumnType("datetime")
+                .HasColumnName("startDate");
+
+            entity.Property(e => e.EndDate)
+                .HasColumnType("datetime")
+                .HasColumnName("endDate");
+
+            entity.Property(e => e.CreatedAt)
+                .HasColumnType("datetime")
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnName("createdAt");
+
+            entity.Property(e => e.TeacherName)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("teacherName");
+
+            entity.Property(e => e.ClassName)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("className");
 
             entity.HasOne(d => d.Class).WithMany(p => p.Notifications)
                 .HasForeignKey(d => d.ClassId)
@@ -209,6 +227,34 @@ public partial class AppDbContext : DbContext
             entity.HasOne(d => d.Teacher).WithMany(p => p.Notifications)
                 .HasForeignKey(d => d.TeacherId)
                 .HasConstraintName("FK__Notificat__teach__5812160E");
+
+            entity.HasOne(d => d.Term)
+                .WithOne(p => p.Notification)
+                .HasForeignKey<Term>(p => p.NotiID)
+                .HasConstraintName("FK_Term_Notification");
+        });
+
+        modelBuilder.Entity<Term>(entity =>
+        {
+            entity.HasKey(e => e.TermID).HasName("PK_Term");
+
+            entity.ToTable("Term");
+
+            entity.Property(e => e.TermID).HasColumnName("termID");
+            entity.Property(e => e.Mode)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("mode");
+
+            entity.Property(e => e.StartTime).HasColumnName("startTime");
+            entity.Property(e => e.EndTime).HasColumnName("endTime");
+            entity.Property(e => e.CreatedAt).HasColumnName("createdAt");
+            entity.Property(e => e.NotiID).HasColumnName("notiID");
+
+            entity.HasOne(d => d.Notification)
+                .WithOne(p => p.Term)
+                .HasForeignKey<Term>(d => d.NotiID)
+                .HasConstraintName("FK_Term_Notification");
         });
 
         modelBuilder.Entity<Parent>(entity =>
@@ -277,10 +323,10 @@ public partial class AppDbContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("subjectName");
-            entity.Property(e => e.TermId).HasColumnName("termID");
+            entity.Property(e => e.SemeId).HasColumnName("termID");
 
             entity.HasOne(d => d.Term).WithMany(p => p.Subjects)
-                .HasForeignKey(d => d.TermId)
+                .HasForeignKey(d => d.SemeId)
                 .HasConstraintName("FK__Subject__termID__3B75D760");
         });
 
@@ -307,13 +353,13 @@ public partial class AppDbContext : DbContext
                 .HasConstraintName("FK_Teacher_User");
         });
 
-        modelBuilder.Entity<Term>(entity =>
+        modelBuilder.Entity<Semester>(entity =>
         {
-            entity.HasKey(e => e.TermId).HasName("PK__Term__90C2BD3EC0AA98AD");
+            entity.HasKey(e => e.SemeId).HasName("PK__Term__90C2BD3EC0AA98AD");
 
-            entity.ToTable("Term");
+            entity.ToTable("Semester");
 
-            entity.Property(e => e.TermId).HasColumnName("termID");
+            entity.Property(e => e.SemeId).HasColumnName("semeID");
             entity.Property(e => e.EndDate).HasColumnName("endDate");
             entity.Property(e => e.SchoolYear)
                 .HasMaxLength(255)
@@ -360,6 +406,8 @@ public partial class AppDbContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("role");
         });
+
+
 
         OnModelCreatingPartial(modelBuilder);
     }

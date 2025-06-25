@@ -10,11 +10,11 @@ public partial class Subject
 
     public string? SubjectName { get; set; }
 
-    public String? TermId { get; set; }
+    public String? SemeId { get; set; }
 
     public virtual ICollection<Score> Scores { get; set; } = new List<Score>();
 
     public virtual ICollection<Teacher> Teachers { get; set; } = new List<Teacher>();
 
-    public virtual Term? Term { get; set; }
+    public virtual Semester? Term { get; set; }
 }
