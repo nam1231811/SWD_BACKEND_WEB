@@ -10,6 +10,8 @@ public partial class Notification
 
     public String? TeacherId { get; set; }
 
+    public String? TermId { get; set; }
+
     public string? Title { get; set; }
 
     public string? Description { get; set; }
@@ -22,7 +24,14 @@ public partial class Notification
 
     public DateTime? CreatedAt { get; set; }
 
+    public string? TeacherName { get; set; }
+
+    public string? ClassName { get; set; }
+
     public virtual Classroom? Class { get; set; }
 
     public virtual Teacher? Teacher { get; set; }
+
+    public virtual Term? Term { get; set; }
+
 }

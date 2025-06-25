@@ -1,24 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using Microsoft.Identity.Client;
 
-namespace EduConnect.Entities;
+    namespace EduConnect.Entities;
 
-public partial class Term
-{
-    [Key] public String TermId { get; set; } = Guid.NewGuid().ToString();
+        public partial class Term
+        {
+            [Key] public string? TermID { get; set; } = Guid.NewGuid().ToString();
 
-    public DateOnly? StartDate { get; set; }
+            public string? Mode { get; set; } // tao report theo thang, ki, nam
 
-    public DateOnly? EndDate { get; set; }
+            public DateTime? StartTime { get; set; }
 
-    public string? SemesterName { get; set; }
+            public DateTime? EndTime { get; set; }
 
-    public string? SchoolYear { get; set; }
+            public DateTime? CreatedAt { get; set; }
 
-    public string? Status { get; set; }
+            public String? NotiID { get; set; }
+        
+            public virtual Notification? Notification { get; set; }
 
-    public virtual ICollection<Course> Courses { get; set; } = new List<Course>();
+        }
 
-    public virtual ICollection<Subject> Subjects { get; set; } = new List<Subject>();
-}
