@@ -18,7 +18,7 @@ namespace EduConnect.Services
             {
                 SubjectId = Guid.NewGuid().ToString(),
                 SubjectName = dto.SubjectName,
-                SemeId = dto.SemeId,
+                TermId = dto.TermId,
             };
             await _subjectRepository.CreateSubjectAsync(sub);
         }
@@ -39,7 +39,7 @@ namespace EduConnect.Services
             {
                 SubjectId = sub.SubjectId,
                 SubjectName = sub.SubjectName,
-                SemeId = sub.SemeId,
+                TermId = sub.TermId,
             };
         }
 
@@ -51,7 +51,7 @@ namespace EduConnect.Services
                 return;
             }
             sub.SubjectName = dto.SubjectName;
-            sub.SemeId = dto.SemeId;
+            sub.TermId = dto.TermId;
             await _subjectRepository.UpdateSubjectAsync(sub);
         }
     }
