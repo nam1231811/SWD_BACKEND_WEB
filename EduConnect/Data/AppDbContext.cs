@@ -40,6 +40,8 @@ public partial class AppDbContext : DbContext
 
     public virtual DbSet<Semester> Semesters { get; set; }
 
+    public virtual DbSet<SchoolYear> SchoolYears { get; set; }
+
     public virtual DbSet<Term> Terms { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
@@ -197,19 +199,6 @@ public partial class AppDbContext : DbContext
                 .HasColumnType("text")
                 .HasColumnName("description");
 
-            entity.Property(e => e.StartDate)
-                .HasColumnType("datetime")
-                .HasColumnName("startDate");
-
-            entity.Property(e => e.EndDate)
-                .HasColumnType("datetime")
-                .HasColumnName("endDate");
-
-            entity.Property(e => e.CreatedAt)
-                .HasColumnType("datetime")
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnName("createdAt");
-
             entity.Property(e => e.TeacherName)
                 .HasMaxLength(255)
                 .IsUnicode(false)
@@ -246,9 +235,6 @@ public partial class AppDbContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("mode");
 
-            entity.Property(e => e.StartTime).HasColumnName("startTime");
-            entity.Property(e => e.EndTime).HasColumnName("endTime");
-            entity.Property(e => e.CreatedAt).HasColumnName("createdAt");
             entity.Property(e => e.NotiID).HasColumnName("notiID");
 
             entity.HasOne(d => d.Notification)
@@ -323,9 +309,9 @@ public partial class AppDbContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("subjectName");
-            entity.Property(e => e.SemeId).HasColumnName("termID");
+            entity.Property(e => e.SemeId).HasColumnName("semeID");
 
-            entity.HasOne(d => d.Term).WithMany(p => p.Subjects)
+            entity.HasOne(d => d.Semester).WithMany(p => p.Subjects)
                 .HasForeignKey(d => d.SemeId)
                 .HasConstraintName("FK__Subject__termID__3B75D760");
         });
@@ -355,25 +341,53 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<Semester>(entity =>
         {
-            entity.HasKey(e => e.SemeId).HasName("PK__Term__90C2BD3EC0AA98AD");
+            entity.HasKey(e => e.SemeId).HasName("PK_Semester");
 
             entity.ToTable("Semester");
 
             entity.Property(e => e.SemeId).HasColumnName("semeID");
+
+            entity.Property(e => e.StartDate).HasColumnName("startDate");
+
             entity.Property(e => e.EndDate).HasColumnName("endDate");
-            entity.Property(e => e.SchoolYear)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("schoolYear");
+
             entity.Property(e => e.SemesterName)
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("semesterName");
-            entity.Property(e => e.StartDate).HasColumnName("startDate");
+
+            entity.Property(e => e.SchoolYearID)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("schoolYearID");
+
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("status");
+        });
+
+        modelBuilder.Entity<SchoolYear>(entity =>
+        {
+            entity.HasKey(e => e.SchoolYearID).HasName("PK_SchoolYear");
+
+            entity.ToTable("SchoolYear");
+
+            entity.Property(e => e.SchoolYearID)
+                .HasColumnName("schoolYearID")
+                .HasMaxLength(50)
+                .IsUnicode(false);
+
+            entity.Property(e => e.Status)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("status");
+
+            // 1 SchoolYear có nhiều Semester
+            entity.HasMany(e => e.Semesters)
+                .WithOne(e => e.SchoolYear)
+                .HasForeignKey(e => e.SchoolYearID)
+                .HasConstraintName("FK_Semester_SchoolYear");
         });
 
         modelBuilder.Entity<User>(entity =>

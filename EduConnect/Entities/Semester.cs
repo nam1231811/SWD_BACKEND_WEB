@@ -14,9 +14,11 @@ public partial class Semester
 
     public string? SemesterName { get; set; }
 
-    public string? SchoolYear { get; set; }
+    public string? SchoolYearID { get; set; }
 
     public string? Status { get; set; }
+
+    public virtual SchoolYear? SchoolYear { get; set; }  // navigation property
 
     public virtual ICollection<Course> Courses { get; set; } = new List<Course>();
 

@@ -16,5 +16,5 @@ public partial class Subject
 
     public virtual ICollection<Teacher> Teachers { get; set; } = new List<Teacher>();
 
-    public virtual Semester? Term { get; set; }
+    public virtual Semester? Semester { get; set; }
 }
