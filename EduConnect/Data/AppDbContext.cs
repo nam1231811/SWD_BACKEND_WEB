@@ -264,15 +264,25 @@ public partial class AppDbContext : DbContext
             entity.ToTable("Score");
 
             entity.Property(e => e.ScoreId).HasColumnName("scoreID");
+
             entity.Property(e => e.Score1)
                 .HasColumnType("decimal(5, 2)")
                 .HasColumnName("score");
-            entity.Property(e => e.SubjectId).HasColumnName("subjectID");
 
-            entity.HasOne(d => d.Subject).WithMany(p => p.Scores)
+            entity.Property(e => e.SubjectId).HasColumnName("subjectID");
+            entity.Property(e => e.StudentId).HasColumnName("studentID");
+
+            entity.HasOne(d => d.Subject)
+                .WithMany(p => p.Scores)
                 .HasForeignKey(d => d.SubjectId)
                 .HasConstraintName("FK__Score__subjectID__4CA06362");
+
+            entity.HasOne(d => d.Student) 
+                .WithMany(p => p.Scores)
+                .HasForeignKey(d => d.StudentId)
+                .HasConstraintName("FK_Score_Student");
         });
+
 
         modelBuilder.Entity<Student>(entity =>
         {
