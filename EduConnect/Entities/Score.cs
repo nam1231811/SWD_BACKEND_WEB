@@ -6,11 +6,15 @@ namespace EduConnect.Entities;
 
 public partial class Score
 {
-    [Key] public String ScoreId { get; set; } = Guid.NewGuid().ToString();
+    [Key] public string ScoreId { get; set; } = Guid.NewGuid().ToString();
 
-    public String? SubjectId { get; set; }
+    public string? SubjectId { get; set; }
+
+    public string? StudentId { get; set; }  
 
     public decimal? Score1 { get; set; }
 
     public virtual Subject? Subject { get; set; }
+
+    public virtual Student? Student { get; set; }  
 }

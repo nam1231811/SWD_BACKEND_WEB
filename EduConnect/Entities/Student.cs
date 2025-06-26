@@ -19,4 +19,6 @@ public partial class Student
     public virtual Classroom? Class { get; set; }
 
     public virtual Parent? Parent { get; set; }
+
+    public virtual ICollection<Score> Scores { get; set; } = new List<Score>();
 }
