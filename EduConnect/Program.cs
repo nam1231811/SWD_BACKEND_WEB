@@ -24,24 +24,24 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 //them Service
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<JwtService>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
-builder.Services.AddScoped<IParentRepository, ParentRepository>();
 builder.Services.AddScoped<IParentService, ParentService>();
-builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
-builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
 builder.Services.AddScoped<ISubjectService, SubjectService>();
-<<<<<<< Nghiadt
-builder.Services.AddScoped<IClassRepository, ClassRepository>();
 builder.Services.AddScoped<IClassService, ClassService>();
-=======
-builder.Services.AddScoped<IScoreRepository, ScoreRepository>();
 builder.Services.AddScoped<IScoreService, ScoreService>();
+builder.Services.AddScoped<IAttendanceService, AttendanceService>();
 
->>>>>>> master
+//them repository
+builder.Services.AddScoped<IScoreRepository, ScoreRepository>();
+builder.Services.AddScoped<IClassRepository, ClassRepository>();
+builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+builder.Services.AddScoped<IParentRepository, ParentRepository>();
+builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
 
 //cau hinh JWT
 builder.Services.AddAuthentication(options =>
