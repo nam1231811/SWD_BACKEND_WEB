@@ -18,12 +18,6 @@ public partial class Notification
 
     public String? ClassId { get; set; }
 
-    public DateTime? StartDate { get; set; }
-
-    public DateTime? EndDate { get; set; }
-
-    public DateTime? CreatedAt { get; set; }
-
     public string? TeacherName { get; set; }
 
     public string? ClassName { get; set; }
