@@ -22,9 +22,6 @@ namespace EduConnect.Services
                 Title = dto.Title,
                 Description = dto.Description,
                 ClassId = dto.ClassId,
-                StartDate = dto.StartDate,
-                EndDate = dto.EndDate,
-                CreatedAt = DateTime.UtcNow
             };
             await _notificationRepository.AddAsync(noti);
         }
@@ -45,9 +42,6 @@ namespace EduConnect.Services
                 Description = n.Description,
                 ClassId = n.ClassId,
                 TeacherId = n.TeacherId,
-                StartDate = n.StartDate,
-                EndDate = n.EndDate,
-                CreatedAt = n.CreatedAt
             }).ToList();
         }
 
@@ -63,9 +57,6 @@ namespace EduConnect.Services
                 Description = n.Description,
                 ClassId = n.ClassId,
                 TeacherId = n.TeacherId,
-                StartDate = n.StartDate,
-                EndDate = n.EndDate,
-                CreatedAt = n.CreatedAt
             };
         }
     }
