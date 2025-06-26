@@ -35,7 +35,6 @@ namespace EduConnect.Repositories
             .Include(n => n.Class)
             .Include(n => n.Teacher)
             .Where(n => n.ClassId == classId)
-            .OrderByDescending(n => n.CreatedAt)
             .ToListAsync();
         }
 
