@@ -17,7 +17,8 @@ namespace EduConnect.Controllers.Notifications
         }
 
         //tim theo class id, liet ke toan bo noti trong class do
-        [HttpGet("class/{classId}")]
+        //GET: /api/notifications?classId=xyz
+        [HttpGet]
         public async Task<IActionResult> GetByClass(string classId)
         {
             var notis = await _notificationService.GetByClassIdAsync(classId);
@@ -25,7 +26,8 @@ namespace EduConnect.Controllers.Notifications
         }
 
         //tim noti dua vao id
-        [HttpGet("Notification")]
+        // GET: /api/notifications/{NotiId}
+        [HttpGet("{NotiId}")]
         public async Task<IActionResult> GetById(string NotiId)
         {
             var noti = await _notificationService.GetByIdAsync(NotiId);
@@ -34,7 +36,8 @@ namespace EduConnect.Controllers.Notifications
         }
 
         //tao notification
-        [HttpPost("CreateNotification")]
+        // POST: /api/notifications
+        [HttpPost]
         public async Task<IActionResult> Create([FromBody] NotificationCreate dto)
         {
             await _notificationService.CreateAsync(dto);
@@ -42,7 +45,8 @@ namespace EduConnect.Controllers.Notifications
         }
 
         //xoa notification
-        [HttpDelete("{NotiId}")]
+        // DELETE: /api/notifications/{id}
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
             await _notificationService.DeleteAsync(id);

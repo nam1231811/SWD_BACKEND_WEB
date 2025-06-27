@@ -15,7 +15,7 @@ namespace EduConnect.Controllers.SchoolYear
             _yearService = yearService;
         }
 
-        [HttpGet("find")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetSchoolYearInfo(string id)
         {
             var result = await _yearService.GetSchoolYearById(id);

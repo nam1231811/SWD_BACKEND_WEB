@@ -24,7 +24,7 @@ namespace EduConnect.Controllers.Admin
         }
 
 
-        [HttpPut("assign-role")]
+        [HttpPut("users/role")]
         public async Task<IActionResult> AssignRoleByEmail([FromBody] AssignRole request)
         {
             //tim email

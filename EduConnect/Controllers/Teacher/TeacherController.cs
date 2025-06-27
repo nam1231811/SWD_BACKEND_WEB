@@ -15,6 +15,7 @@ namespace EduConnect.Controllers.Teacher
             _service = service;
         }
 
+        // GET: /api/teachers/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id) =>
             Ok(await _service.GetByIdAsync(id)); // Lấy giáo viên theo ID

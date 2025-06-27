@@ -16,7 +16,7 @@ public class ScoreController : ControllerBase
     }
 
     // Nhập điểm
-    [HttpPost("create")]
+    [HttpPost]
     public async Task<IActionResult> CreateScore([FromBody] ScoreCreate dto)
     {
         var id = await _scoreService.CreateScoreAsync(dto);
@@ -24,7 +24,7 @@ public class ScoreController : ControllerBase
     }
 
     // Cập nhật điểm
-    [HttpPut("update")]
+    [HttpPut("{scoreId}")]
     public async Task<IActionResult> UpdateScore([FromQuery] string scoreId, [FromBody] UpdateScore dto)
     {
         var success = await _scoreService.UpdateScoreAsync(scoreId, dto);

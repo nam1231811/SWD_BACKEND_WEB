@@ -17,7 +17,7 @@ namespace EduConnect.Controllers.Term
         }
 
         //get tem id
-        [HttpGet("Term")]
+        [HttpGet("{TermId}")]
         public async Task<IActionResult> GetTermById(String TermId)
         {
             var result = await _termService.GetTermById(TermId);
@@ -29,7 +29,7 @@ namespace EduConnect.Controllers.Term
         }
 
         //tao term moi
-        [HttpPost("create")]
+        [HttpPost]
         public async Task<IActionResult> CreateTerm([FromBody] TermCreated dto)
         {
             await _termService.CreateTerm(dto);
@@ -37,7 +37,7 @@ namespace EduConnect.Controllers.Term
         }
 
         //update term
-        [HttpPut("update")]
+        [HttpPut]
         public async Task<IActionResult> UpdateTerm([FromBody] TermCreated dto)
         {
             await _termService.UpdateTerm(dto);

@@ -17,7 +17,7 @@ namespace EduConnect.Controllers.Attendance
         }
 
         //tim theo id
-        [HttpGet("getid")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetAttendanceById(string id)
         {
             var data = await _attendanceService.GetAttendanceByIdAsync(id);
@@ -29,7 +29,7 @@ namespace EduConnect.Controllers.Attendance
         }
 
         //tao attendance
-        [HttpPost("create")]
+        [HttpPost]
         public async Task<IActionResult> CreateAttendance([FromBody] AttendanceCreate dto)
         {
             await _attendanceService.AddAttendanceAsync(dto);
@@ -37,7 +37,7 @@ namespace EduConnect.Controllers.Attendance
         }
 
         //update attendance
-        [HttpPut("update")]
+        [HttpPut]
         public async Task<IActionResult> UpdateAttendance([FromBody] AttendanceCreate dto)
         {
             await _attendanceService.UpdateAttendanceAsync(dto);

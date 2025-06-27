@@ -20,7 +20,8 @@ namespace EduConnect.Controllers.Parent
         }
 
         //lay thong tin hoc sinh
-        [HttpGet("student/{email}")]
+        // GET: /api/parents/students
+        [HttpGet("students")]
         public async Task<IActionResult> GetStudentInfo(string email)
         {
             var result = await _parentService.GetStudentInfoAsync(email);
@@ -28,6 +29,7 @@ namespace EduConnect.Controllers.Parent
         }
 
         //lay thong tin profile
+        // GET: /api/parents/profile
         [HttpGet("profile")]
         public async Task<IActionResult> GetParentsInfo()
         {
@@ -48,7 +50,8 @@ namespace EduConnect.Controllers.Parent
         }
 
         //chinh sua profile
-        [HttpPut("profile/{email}")]
+        // PUT: /api/parents/profile
+        [HttpPut("profile")]
         public async Task<IActionResult> UpdateProfile(string email, [FromBody] UpdateParentProfile dto)
         {
             //update thong tin
