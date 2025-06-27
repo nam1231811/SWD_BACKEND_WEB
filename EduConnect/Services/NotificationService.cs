@@ -22,6 +22,9 @@ namespace EduConnect.Services
                 Title = dto.Title,
                 Description = dto.Description,
                 ClassId = dto.ClassId,
+                ClassName = dto.ClassName,
+                TeacherName = dto.TeacherName,
+                TermId = dto.TermID,
             };
             await _notificationRepository.AddAsync(noti);
         }
@@ -42,6 +45,9 @@ namespace EduConnect.Services
                 Description = n.Description,
                 ClassId = n.ClassId,
                 TeacherId = n.TeacherId,
+                TermId = n.TermId,
+                TeacherName= n.TeacherName,
+                ClassName = n.ClassName,
             }).ToList();
         }
 
@@ -57,6 +63,9 @@ namespace EduConnect.Services
                 Description = n.Description,
                 ClassId = n.ClassId,
                 TeacherId = n.TeacherId,
+                TermId = n.TermId,
+                ClassName = n.ClassName,
+                TeacherName = n.TeacherName,
             };
         }
     }
