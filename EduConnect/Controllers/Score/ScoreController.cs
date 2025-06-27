@@ -15,19 +15,21 @@ public class ScoreController : ControllerBase
         _scoreService = scoreService;
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Create([FromBody] ScoreCreate dto) // Nhập điểm
+    // Nhập điểm
+    [HttpPost("create")]
+    public async Task<IActionResult> CreateScore([FromBody] ScoreCreate dto)
     {
         var id = await _scoreService.CreateScoreAsync(dto);
-        return CreatedAtAction(nameof(Create), new { id }, new { scoreId = id });
+        return Ok(new { scoreId = id, message = "Score created" });
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Update(string id, [FromBody] UpdateScore dto) // Cập nhật điểm
+    // Cập nhật điểm
+    [HttpPut("update")]
+    public async Task<IActionResult> UpdateScore([FromQuery] string scoreId, [FromBody] UpdateScore dto)
     {
-        var success = await _scoreService.UpdateScoreAsync(id, dto);
-        if (!success) return NotFound();
+        var success = await _scoreService.UpdateScoreAsync(scoreId, dto);
+        if (!success) return NotFound("Score not found");
 
-        return NoContent();
+        return Ok("Score updated");
     }
 }
