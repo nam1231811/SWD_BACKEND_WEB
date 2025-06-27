@@ -32,6 +32,7 @@ builder.Services.AddScoped<ISubjectService, SubjectService>();
 builder.Services.AddScoped<IClassService, ClassService>();
 builder.Services.AddScoped<IScoreService, ScoreService>();
 builder.Services.AddScoped<IAttendanceService, AttendanceService>();
+builder.Services.AddScoped<ISemesterService, SemesterService>();
 
 //them repository
 builder.Services.AddScoped<IScoreRepository, ScoreRepository>();
@@ -42,6 +43,7 @@ builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
+builder.Services.AddScoped<ISemesterRepository, SemesterRepository>();
 
 //cau hinh JWT
 builder.Services.AddAuthentication(options =>
