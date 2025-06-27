@@ -17,7 +17,7 @@ namespace EduConnect.Controllers.Classroom
         }
 
         //tim theo id
-        [HttpGet("classroom")]
+        [HttpGet("{ClassId}")]
         public async Task<IActionResult> GetClassById(String ClassId)
         {
             var result = await _classService.GetByIdAsync(ClassId);
@@ -29,7 +29,7 @@ namespace EduConnect.Controllers.Classroom
         }
 
         //tao class moi
-        [HttpPost("create")]
+        [HttpPost]
         public async Task<IActionResult> CreateClass([FromBody] ClassCreate dto)
         {
             await _classService.CreateClassAsync(dto);
@@ -37,7 +37,7 @@ namespace EduConnect.Controllers.Classroom
         }
 
         //delete class 
-        [HttpDelete("delete")]
+        [HttpDelete("{ClassId}")]
         public async Task<IActionResult> DeleteClass(string ClassId)
         {
             await _classService.DeleteClassAsync(ClassId);
@@ -45,7 +45,7 @@ namespace EduConnect.Controllers.Classroom
         }
 
         //update class
-        [HttpPut("update")]
+        [HttpPut]
         public async Task<IActionResult> UpdateClass([FromBody] ClassCreate dto)
         {
             await _classService.UpdateClassAsync(dto);

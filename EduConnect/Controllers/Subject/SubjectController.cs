@@ -18,7 +18,8 @@ namespace EduConnect.Controllers.Subject
         }
 
         //tim sub theo id
-        [HttpGet("subject")]
+        // GET: /api/subjects/{SubjectId}
+        [HttpGet("{SubjectId}")]
         public async Task<IActionResult> GetSubjectById(String SubjectId)
         {
             var result = await _subjectService.GetByIdAsync(SubjectId);
@@ -30,7 +31,8 @@ namespace EduConnect.Controllers.Subject
         }
 
         //tao subject
-        [HttpPost("create")]
+        // POST: /api/subjects
+        [HttpPost]
         public async Task<IActionResult> CreateSubject([FromBody] SubjectCreated dto)
         {
             await _subjectService.CreateSubjectAsync(dto);
@@ -38,7 +40,8 @@ namespace EduConnect.Controllers.Subject
         }
 
         //update subject
-        [HttpPut("update")]
+        // PUT: /api/subjects/{SubjectId}
+        [HttpPut]
         public async Task<IActionResult> UpdateSubject([FromBody] SubjectCreated dto)
         {
             await _subjectService.UpdateSubjectAsync(dto);
@@ -46,7 +49,8 @@ namespace EduConnect.Controllers.Subject
         }
 
         //delete Subject
-        [HttpDelete("delete")]
+        // DELETE: /api/subjects/{SubjectId}
+        [HttpDelete("{SubjectId}")]
         public async Task<IActionResult> DeleteSubject(string SubjectId)
         {
             await _subjectService.DeleteSubjectAsync(SubjectId);
