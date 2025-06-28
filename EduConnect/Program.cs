@@ -35,6 +35,7 @@ builder.Services.AddScoped<IAttendanceService, AttendanceService>();
 builder.Services.AddScoped<IYearService, YearService>();
 builder.Services.AddScoped<ISemesterService, SemesterService>();
 builder.Services.AddScoped<ITermService, TermService>();
+builder.Services.AddScoped<ICourseService, CourseService>();
 
 
 //them repository
@@ -49,6 +50,7 @@ builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
 builder.Services.AddScoped<IYearRepository, YearRepository>();
 builder.Services.AddScoped<ISemesterRepository, SemesterRepository>();
 builder.Services.AddScoped<ITermRepository, TermRepository>();
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 
 //cau hinh JWT
 builder.Services.AddAuthentication(options =>

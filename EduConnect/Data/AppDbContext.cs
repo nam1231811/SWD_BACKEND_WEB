@@ -158,7 +158,7 @@ public partial class AppDbContext : DbContext
                 .HasForeignKey(d => d.TeacherId)
                 .HasConstraintName("FK__Course__teacherI__5070F446");
 
-            entity.HasOne(d => d.Term).WithMany(p => p.Courses)
+            entity.HasOne(d => d.Semester).WithMany(p => p.Courses)
                 .HasForeignKey(d => d.SemeId)
                 .HasConstraintName("FK__Course__termID__5165187F");
         });
