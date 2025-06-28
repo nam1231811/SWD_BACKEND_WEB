@@ -25,5 +25,5 @@ public partial class Course
 
     public virtual Teacher? Teacher { get; set; }
 
-    public virtual Semester? Term { get; set; }
+    public virtual Semester? Semester { get; set; }
 }
