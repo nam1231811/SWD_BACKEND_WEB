@@ -11,10 +11,6 @@ public partial class Teacher
 
     public String? SubjectId { get; set; }
 
-    public TimeOnly? StartTime { get; set; }
-
-    public TimeOnly? EndTime { get; set; }
-
     public string? Status { get; set; }
 
     public virtual Classroom? Classroom { get; set; } // chỉ chủ nhiệm 1 lớp
