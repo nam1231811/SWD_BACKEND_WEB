@@ -335,8 +335,6 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.SubjectId).HasColumnName("subjectID");
             entity.Property(e => e.UserId).HasColumnName("userID");
             entity.Property(e => e.Status).HasColumnName("status").HasMaxLength(255).IsUnicode(false);
-            entity.Property(e => e.StartTime).HasColumnName("startTime");
-            entity.Property(e => e.EndTime).HasColumnName("endTime");
 
             entity.HasOne(d => d.Subject)
                 .WithMany(p => p.Teachers)
