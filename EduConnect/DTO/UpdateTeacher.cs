@@ -1,6 +1,7 @@
-﻿namespace EduConnect.DTO
+﻿namespace EduConnect.DTO.Teacher;
+
+public class UpdateTeacher
 {
-    public class UpdateTeacher : CreateTeacher
-    {
-    }
+    public string? SubjectId { get; set; }
+    public string? Status { get; set; }
 }

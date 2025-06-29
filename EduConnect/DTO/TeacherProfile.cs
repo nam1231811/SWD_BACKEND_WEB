@@ -1,12 +1,11 @@
-﻿namespace EduConnect.DTO
+﻿namespace EduConnect.DTO.Teacher;
+
+public class TeacherProfile
 {
-    public class TeacherProfile
-    {
-        public string TeacherId { get; set; }
-        public string? UserId { get; set; }
-        public string? SubjectId { get; set; }
-        public string? StartTime { get; set; }
-        public string? EndTime { get; set; }
-        public string? Status { get; set; }
-    }
+    public string TeacherId { get; set; } = null!;
+    public string? UserId { get; set; }
+    public string? SubjectId { get; set; }
+    public TimeOnly? StartTime { get; set; }
+    public TimeOnly? EndTime { get; set; }
+    public string? Status { get; set; }
 }

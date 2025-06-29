@@ -2,7 +2,6 @@
 using EduConnect.Entities;
 using EduConnect.Repositories;
 using EduConnect.Services;
-using EduConnect.Mappings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +26,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<JwtService>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddScoped<IParentService, ParentService>();
+builder.Services.AddScoped<ITeacherService, TeacherService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<ISubjectService, SubjectService>();
 builder.Services.AddScoped<IClassService, ClassService>();
@@ -43,6 +43,7 @@ builder.Services.AddScoped<IScoreRepository, ScoreRepository>();
 builder.Services.AddScoped<IClassRepository, ClassRepository>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IParentRepository, ParentRepository>();
+builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -111,7 +112,6 @@ builder.Services.AddSwaggerGen(c =>
         Description = "Enter 'Bearer {your JWT token}'"
     });
 
-    
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -130,12 +130,6 @@ builder.Services.AddSwaggerGen(c =>
 
 // Add services to the container.
 builder.Services.AddControllers();
-
-// 🔑 Thêm AutoMapper
-builder.Services.AddAutoMapper(typeof(MappingProfile));
-
-// Các services khác
-builder.Services.AddScoped<ITeacherService, TeacherService>();
 
 // Swagger (nếu có)
 builder.Services.AddEndpointsApiExplorer();
