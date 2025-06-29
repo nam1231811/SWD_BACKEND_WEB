@@ -128,13 +128,6 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// Add services to the container.
-builder.Services.AddControllers();
-
-// Swagger (nếu có)
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
