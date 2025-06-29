@@ -5,7 +5,7 @@ namespace EduConnect.Services
 {
     public interface IAuthService
     {
-        Task<string?> LoginAsync(Login request);
+        Task<LoginResponse?> LoginAsync(Login request);
         Task<string> RegisterAsync(Register request);
 
         Task<bool> ResetPasswordAsync(ResetPassword dto);

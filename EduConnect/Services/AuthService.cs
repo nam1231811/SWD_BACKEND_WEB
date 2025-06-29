@@ -24,7 +24,7 @@ namespace EduConnect.Services
         }
 
         //dang nhap
-        public async Task<string?> LoginAsync(Login request)
+        public async Task<LoginResponse?> LoginAsync(Login request)
         {
             //tim user theo email
             var user = await _userRepository.GetByEmailAsync(request.Email);
@@ -44,7 +44,15 @@ namespace EduConnect.Services
             //if (user.PasswordHash != passwordHash)
             //    return null;
 
-            return _jwtService.GenerateToken(user);
+            var token = _jwtService.GenerateToken(user);
+            return new LoginResponse
+            {
+                Token = token,
+                UserId = user.UserId,
+                FullName = user.FullName,
+                Email = user.Email,
+                Role = user.Role,
+            };
         }
 
         //dang ki nguoi dung moi

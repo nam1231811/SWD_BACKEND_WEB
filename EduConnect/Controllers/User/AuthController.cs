@@ -37,11 +37,11 @@ namespace EduConnect.Controllers.User
         [HttpPost("Login")]
         public async Task<IActionResult> Login(Login request)
         {
-            var token = await _authService.LoginAsync(request);
-            if (token == null)
+            var result = await _authService.LoginAsync(request);
+            if (result == null)
                 return Unauthorized(new { error = "Invalid email or password." });
 
-            return Ok(new { token });
+            return Ok(result);
         }
 
         //reset mat khau
