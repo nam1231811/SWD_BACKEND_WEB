@@ -335,6 +335,8 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.SubjectId).HasColumnName("subjectID");
             entity.Property(e => e.UserId).HasColumnName("userID");
             entity.Property(e => e.Status).HasColumnName("status").HasMaxLength(255).IsUnicode(false);
+            entity.Property(e => e.FcmToken).HasColumnName("fcm_token").HasMaxLength(500).IsUnicode(false);
+            entity.Property(e => e.Platform).HasColumnName("platform").HasMaxLength(20).IsUnicode(false);
 
             entity.HasOne(d => d.Subject)
                 .WithMany(p => p.Teachers)

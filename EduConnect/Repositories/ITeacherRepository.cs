@@ -1,16 +1,14 @@
-﻿using EduConnect.Entities;
+﻿using EduConnect.DTO.Teacher;
+using EduConnect.Entities;
 
 namespace EduConnect.Repositories
 {
     public interface ITeacherRepository
     {
-        Task<Teacher?> GetByIdAsync(string id);
-        Task<Teacher> AddAsync(Teacher teacher);
-        Task UpdateAsync(Teacher teacher);
-        Task DeleteAsync(Teacher teacher);
-
-        // Nhập điểm và sửa điểm
-        Task<Score> AddScoreAsync(Score score);
-        Task<bool> UpdateScoreAsync(string scoreId, decimal newScore);
+        Task<Teacher?> GetByUserIdAsync(string userId);
+        Task<Teacher> CreateAsync(Teacher teacher);
+        Task UpdateAsync(string userId, UpdateTeacher dto);
+        Task DeleteAsync(string userId);
+        Task UpdateFcmTokenAsync(string userId, string? fcmToken, string? platform);
     }
 }
