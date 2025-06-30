@@ -5,11 +5,10 @@ namespace EduConnect.Services;
 
 public interface ITeacherService
 {
-    Task<TeacherProfile?> GetByIdAsync(string id);
-    Task<string> CreateAsync(CreateTeacher dto);
-    Task<bool> UpdateAsync(string id, UpdateTeacher dto);
-    Task<bool> DeleteAsync(string id);
+    Task<TeacherProfileDto?> GetByUserIdAsync(string userId);
+    Task<TeacherProfileDto> CreateAsync(CreateTeacher dto);
+    Task UpdateAsync(string userId, UpdateTeacher dto);
+    Task DeleteAsync(string userId);
 
-    Task<string> AddScoreAsync(string teacherId, string subjectId, string studentId, decimal score);
-    Task<bool> UpdateScoreAsync(string scoreId, decimal newScore);
+    Task UpdateFcmTokenAsync(string userId, UpdateFcmToken dto);
 }

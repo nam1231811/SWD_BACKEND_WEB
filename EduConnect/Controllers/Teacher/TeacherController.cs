@@ -6,64 +6,47 @@ using Microsoft.AspNetCore.Mvc;
 namespace EduConnect.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/Teacher")]
 public class TeacherController : ControllerBase
 {
-    private readonly ITeacherService _teacherService;
-    private readonly IScoreService _scoreService;
+    private readonly ITeacherService _service;
+    public TeacherController(ITeacherService service) => _service = service;
 
-    public TeacherController(ITeacherService teacherService, IScoreService scoreService)
+    [HttpGet("{userId}")]
+    public async Task<IActionResult> GetByUserId(string userId)
     {
-        _teacherService = teacherService;
-        _scoreService = scoreService;
-    }
-
-    // GET /api/Teacher/{id}
-    [HttpGet("{TeacherId}")]
-    public async Task<IActionResult> GetById(string id)
-    {
-        var teacher = await _teacherService.GetByIdAsync(id);
-        if (teacher == null) return NotFound("Teacher not found");
+        var teacher = await _service.GetByUserIdAsync(userId);
+        if (teacher == null) return NotFound();
         return Ok(teacher);
     }
 
-    // POST /api/Teacher
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateTeacher dto)
     {
-        var id = await _teacherService.CreateAsync(dto);
-        return CreatedAtAction(nameof(GetById), new { id }, new { teacherId = id });
+        var teacher = await _service.CreateAsync(dto);
+        return CreatedAtAction(nameof(GetByUserId), new { userId = teacher.UserId }, teacher);
     }
 
-    // PUT /api/Teacher/{id}
-    [HttpPut]
-    public async Task<IActionResult> Update(string id, [FromBody] UpdateTeacher dto)
+    [HttpPut("{userId}")]
+    public async Task<IActionResult> Update(string userId, [FromBody] UpdateTeacher dto)
     {
-        var updated = await _teacherService.UpdateAsync(id, dto);
-        return updated ? Ok("Teacher updated") : NotFound("Teacher not found");
+        await _service.UpdateAsync(userId, dto);
+        return NoContent();
     }
 
-    // DELETE /api/Teacher/{id}
-    [HttpDelete("{TeacherId}")]
-    public async Task<IActionResult> Delete(string id)
+    [HttpDelete("{userId}")]
+    public async Task<IActionResult> Delete(string userId)
     {
-        var deleted = await _teacherService.DeleteAsync(id);
-        return deleted ? Ok("Teacher deleted") : NotFound("Teacher not found");
+        await _service.DeleteAsync(userId);
+        return NoContent();
     }
 
-    // POST /api/Teacher/{teacherId}/score  -> Nhập điểm
-    [HttpPost("{TeacherId}/score")]
-    public async Task<IActionResult> EnterScore(string teacherId, [FromBody] ScoreCreate dto)
+    [HttpPut("{userId}/fcm")]
+    public async Task<IActionResult> UpdateFcmToken(string userId, [FromBody] UpdateFcmToken dto)
     {
-        var scoreId = await _scoreService.CreateScoreAsync(dto);
-        return CreatedAtAction(nameof(EnterScore), new { teacherId }, new { scoreId });
-    }
-
-    // PUT /api/Teacher/{teacherId}/score/{scoreId}  -> Sửa điểm
-    [HttpPut("{TeacherId}/score/{ScoreId}")]
-    public async Task<IActionResult> UpdateScore(string teacherId, string scoreId, [FromBody] UpdateScore dto)
-    {
-        var updated = await _scoreService.UpdateScoreAsync(scoreId, dto);
-        return updated ? Ok("Score updated") : NotFound("Score not found");
+        await _service.UpdateFcmTokenAsync(userId, dto);
+        return NoContent();
     }
 }
+
+

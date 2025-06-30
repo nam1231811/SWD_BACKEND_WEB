@@ -8,27 +8,31 @@ namespace EduConnect.Services;
 public class TeacherService : ITeacherService
 {
     private readonly ITeacherRepository _repo;
+    public TeacherService(ITeacherRepository repo) => _repo = repo;
 
-    public TeacherService(ITeacherRepository repo)
+    public async Task<TeacherProfileDto?> GetByUserIdAsync(string userId)
     {
-        _repo = repo;
-    }
+        var teacher = await _repo.GetByUserIdAsync(userId);
+        if (teacher == null || teacher.User == null) return null;
 
-    public async Task<TeacherProfile?> GetByIdAsync(string id)
-    {
-        var teacher = await _repo.GetByIdAsync(id);
-        if (teacher == null) return null;
-
-        return new TeacherProfile
+        return new TeacherProfileDto
         {
             TeacherId = teacher.TeacherId,
-            UserId = teacher.UserId,
+            UserId = teacher.UserId!,
             SubjectId = teacher.SubjectId,
-            Status = teacher.Status
+            Status = teacher.Status,
+            FullName = $"{teacher.User.LastName} {teacher.User.FirstName}",
+            FirstName = teacher.User.FirstName,
+            LastName = teacher.User.LastName,
+            Email = teacher.User.Email,
+            PhoneNumber = teacher.User.PhoneNumber,
+            CreateAt = teacher.User.CreateAt,
+            IsHomeroomTeacher = teacher.Classroom != null,
+            IsSubjectTeacher = teacher.Subject != null
         };
     }
 
-    public async Task<string> CreateAsync(CreateTeacher dto)
+    public async Task<TeacherProfileDto> CreateAsync(CreateTeacher dto)
     {
         var teacher = new Teacher
         {
@@ -38,47 +42,23 @@ public class TeacherService : ITeacherService
             Status = dto.Status
         };
 
-        var result = await _repo.AddAsync(teacher);
-        return result.TeacherId;
+        var created = await _repo.CreateAsync(teacher);
+        return await GetByUserIdAsync(created.UserId!) ?? throw new Exception("Cannot retrieve created teacher");
+    }
+    public async Task UpdateAsync(string userId, UpdateTeacher dto)
+    {
+        await _repo.UpdateAsync(userId, dto);
     }
 
-    public async Task<bool> UpdateAsync(string id, UpdateTeacher dto)
+    public async Task DeleteAsync(string userId)
     {
-        var teacher = await _repo.GetByIdAsync(id);
-        if (teacher == null) return false;
-
-        teacher.SubjectId = dto.SubjectId;
-        teacher.Status = dto.Status;
-
-        await _repo.UpdateAsync(teacher);
-        return true;
+        await _repo.DeleteAsync(userId);
     }
 
-    public async Task<bool> DeleteAsync(string id)
+    public async Task UpdateFcmTokenAsync(string userId, UpdateFcmToken dto)
     {
-        var teacher = await _repo.GetByIdAsync(id);
-        if (teacher == null) return false;
-
-        await _repo.DeleteAsync(teacher);
-        return true;
-    }
-
-    public async Task<string> AddScoreAsync(string teacherId, string subjectId, string studentId, decimal score)
-    {
-        var newScore = new Score
-        {
-            ScoreId = Guid.NewGuid().ToString(),
-            SubjectId = subjectId,
-            StudentId = studentId,
-            Score1 = score
-        };
-
-        var result = await _repo.AddScoreAsync(newScore);
-        return result.ScoreId;
-    }
-
-    public async Task<bool> UpdateScoreAsync(string scoreId, decimal newScore)
-    {
-        return await _repo.UpdateScoreAsync(scoreId, newScore);
+        await _repo.UpdateFcmTokenAsync(userId, dto.FcmToken, dto.Platform);
     }
 }
+
+

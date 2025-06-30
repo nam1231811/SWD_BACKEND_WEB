@@ -1,11 +1,21 @@
 ﻿namespace EduConnect.DTO.Teacher;
 
-public class TeacherProfile
+public class TeacherProfileDto
 {
-    public string TeacherId { get; set; } = null!;
-    public string? UserId { get; set; }
+    public string TeacherId { get; set; }
+    public string UserId { get; set; }
+
     public string? SubjectId { get; set; }
-    public TimeOnly? StartTime { get; set; }
-    public TimeOnly? EndTime { get; set; }
     public string? Status { get; set; }
+
+    public string? FullName { get; set; }
+    public string? FirstName { get; set; }
+    public string? LastName { get; set; }
+    public string? Email { get; set; }
+    public string? PhoneNumber { get; set; }
+    public DateTime? CreateAt { get; set; }
+
+    public bool IsHomeroomTeacher { get; set; }
+    public bool IsSubjectTeacher { get; set; }
 }
+
