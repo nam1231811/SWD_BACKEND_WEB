@@ -1,4 +1,5 @@
 ﻿using EduConnect.DTO;
+using EduConnect.Entities;
 using EduConnect.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -12,10 +13,12 @@ namespace EduConnect.Controllers.User
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
+        private readonly JwtService _jwtService;
 
-        public AuthController(IAuthService authService)
+        public AuthController(IAuthService authService, JwtService jwtService)
         {
             _authService = authService;
+            _jwtService = jwtService;
         }
 
         //dang ki nguoi dung moi
@@ -37,11 +40,23 @@ namespace EduConnect.Controllers.User
         [HttpPost("Login")]
         public async Task<IActionResult> Login(Login request)
         {
-            var result = await _authService.LoginAsync(request);
-            if (result == null)
+            var response = await _authService.LoginAsync(request);
+            if (response == null) 
+            { 
                 return Unauthorized(new { error = "Invalid email or password." });
+            }
+            
+            Response.Cookies.Append("jwt", response.Token, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTimeOffset.UtcNow.AddHours(1)
+            });
+            ////an token khoi body
+            //response.Token = "";
 
-            return Ok(result);
+            return Ok(response);
         }
 
         //reset mat khau
