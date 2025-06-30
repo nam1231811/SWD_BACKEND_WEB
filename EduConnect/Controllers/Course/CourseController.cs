@@ -25,9 +25,9 @@ public class CourseController : ControllerBase
 
     // Tìm theo ID
     [HttpGet("{CourseId}")]
-    public async Task<IActionResult> GetById(string id)
+    public async Task<IActionResult> GetById(string CourseId)
     {
-        var result = await _service.GetByIdAsync(id);
+        var result = await _service.GetByIdAsync(CourseId);
         if (result == null) return NotFound("Course not found");
 
         return Ok(result);
