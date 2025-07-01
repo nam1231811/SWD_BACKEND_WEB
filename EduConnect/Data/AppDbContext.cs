@@ -26,7 +26,7 @@ public partial class AppDbContext : DbContext
 
     public virtual DbSet<Message> Messages { get; set; }
 
-    public virtual DbSet<Notification> Notifications { get; set; }
+    public virtual DbSet<Report> Reports { get; set; }
 
     public virtual DbSet<Parent> Parents { get; set; }
 
@@ -179,13 +179,13 @@ public partial class AppDbContext : DbContext
                 .HasColumnName("responseText");
         });
 
-        modelBuilder.Entity<Notification>(entity =>
+        modelBuilder.Entity<Report>(entity =>
         {
-            entity.HasKey(e => e.NotiId).HasName("PK__Notifica__04C97FDB86006B0D");
+            entity.HasKey(e => e.ReportId).HasName("PK__Report__04C97FDB86006B0D");
 
-            entity.ToTable("Notification");
+            entity.ToTable("Report");
 
-            entity.Property(e => e.NotiId).HasColumnName("notiID");
+            entity.Property(e => e.ReportId).HasColumnName("ReportId");
             entity.Property(e => e.ClassId).HasColumnName("classID");
             entity.Property(e => e.TeacherId).HasColumnName("teacherID");
             entity.Property(e => e.TermId).HasColumnName("termID");
@@ -209,18 +209,18 @@ public partial class AppDbContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("className");
 
-            entity.HasOne(d => d.Class).WithMany(p => p.Notifications)
+            entity.HasOne(d => d.Class).WithMany(p => p.Reports)
                 .HasForeignKey(d => d.ClassId)
-                .HasConstraintName("FK__Notificat__class__59063A47");
+                .HasConstraintName("FK__Report__class__59063A47");
 
-            entity.HasOne(d => d.Teacher).WithMany(p => p.Notifications)
+            entity.HasOne(d => d.Teacher).WithMany(p => p.Reports)
                 .HasForeignKey(d => d.TeacherId)
-                .HasConstraintName("FK__Notificat__teach__5812160E");
+                .HasConstraintName("FK__Report__teach__5812160E");
 
             entity.HasOne(d => d.Term)
-                .WithOne(p => p.Notification)
-                .HasForeignKey<Term>(p => p.NotiID)
-                .HasConstraintName("FK_Term_Notification");
+                .WithOne(p => p.Report)
+                .HasForeignKey<Term>(p => p.ReportId)
+                .HasConstraintName("FK_Term_Report");
         });
 
         modelBuilder.Entity<Term>(entity =>
@@ -235,12 +235,12 @@ public partial class AppDbContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("mode");
 
-            entity.Property(e => e.NotiID).HasColumnName("notiID");
+            entity.Property(e => e.ReportId).HasColumnName("ReportId");
 
-            entity.HasOne(d => d.Notification)
+            entity.HasOne(d => d.Report)
                 .WithOne(p => p.Term)
-                .HasForeignKey<Term>(d => d.NotiID)
-                .HasConstraintName("FK_Term_Notification");
+                .HasForeignKey<Term>(d => d.ReportId)
+                .HasConstraintName("FK_Term_Report");
         });
 
         modelBuilder.Entity<Parent>(entity =>

@@ -1,6 +1,6 @@
 ﻿namespace EduConnect.DTO
 {
-    public class NotificationCreate
+    public class ReportCreate
     {
         public string? TeacherId { get; set; }
         public string? Title { get; set; }

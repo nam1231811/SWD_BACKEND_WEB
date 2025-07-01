@@ -10,6 +10,6 @@
 
         public DateTime? CreatedAt { get; set; }
 
-        public String? NotiID { get; set; }
+        public String? ReportId { get; set; }
     }
 }

@@ -17,9 +17,9 @@
 
             public DateTime? CreatedAt { get; set; }
 
-            public String? NotiID { get; set; }
+            public String? ReportId { get; set; }
         
-            public virtual Notification? Notification { get; set; }
+            public virtual Report? Report { get; set; }
 
         }
 
