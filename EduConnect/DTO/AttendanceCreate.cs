@@ -7,7 +7,7 @@
         public string CourseId { get; set; }
         public string? Participation { get; set; }
         public string? Note { get; set; }
-        public bool? Homework { get; set; }
-        public bool? Focus { get; set; }
+        public string? Homework { get; set; }
+        public string? Focus { get; set; }
     }
 }
