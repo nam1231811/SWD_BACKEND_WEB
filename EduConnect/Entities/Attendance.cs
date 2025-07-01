@@ -16,9 +16,9 @@ public partial class Attendance
 
     [Key] public String AtID { get; set; } = Guid.NewGuid().ToString();
 
-    public bool? Homework { get; set; }
+    public string? Homework { get; set; }
 
-    public bool? Focus { get; set; }
+    public string? Focus { get; set; }
 
     public virtual Course Course { get; set; } = null!;
 
