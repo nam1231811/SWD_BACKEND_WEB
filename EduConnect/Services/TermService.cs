@@ -19,7 +19,7 @@ namespace EduConnect.Services
                 StartTime = term.StartTime,
                 EndTime = term.EndTime,
                 CreatedAt = DateTime.Now,
-                NotiID = term.NotiID,
+                ReportId = term.ReportId,
             };
             await _termRepository.CreateTerm(terms);
         }
@@ -37,7 +37,7 @@ namespace EduConnect.Services
                 StartTime = terms.StartTime,
                 CreatedAt = DateTime.Now,
                 EndTime = terms.EndTime,
-                NotiID = terms.NotiID,
+                ReportId = terms.ReportId,
             };
         }
 
@@ -49,7 +49,7 @@ namespace EduConnect.Services
                 return;
             }
             terms.StartTime = term.StartTime;
-            terms.NotiID = term.NotiID;
+            terms.ReportId = term.ReportId;
             term.EndTime = term.EndTime;
             await _termRepository.UpdateTerm(terms);
 

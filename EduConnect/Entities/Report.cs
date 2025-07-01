@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EduConnect.Entities;
 
-public partial class Notification
+public partial class Report
 {
-    [Key] public String NotiId { get; set; } = Guid.NewGuid().ToString();
+    [Key] public String ReportId { get; set; } = Guid.NewGuid().ToString();
 
     public String? TeacherId { get; set; }
 

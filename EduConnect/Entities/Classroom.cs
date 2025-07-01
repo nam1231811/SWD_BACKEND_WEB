@@ -14,9 +14,8 @@ public class Classroom
 
     // Quan hệ 1 lớp có nhiều học sinh
     public virtual ICollection<Student> Students { get; set; } = new List<Student>();
-
     public virtual ICollection<Course> Courses { get; set; } = new List<Course>();
-    public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
+    public virtual ICollection<Report> Reports { get; set; } = new List<Report>();
 }
 
 

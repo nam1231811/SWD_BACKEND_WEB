@@ -16,7 +16,7 @@ public partial class Teacher
 
     public virtual Classroom? Classroom { get; set; }
     public virtual ICollection<Course> Courses { get; set; } = new List<Course>();
-    public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
+    public virtual ICollection<Report> Reports { get; set; } = new List<Report>();
     public virtual Subject? Subject { get; set; }
     public virtual User? User { get; set; }
 }

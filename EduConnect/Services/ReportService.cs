@@ -4,20 +4,20 @@ using EduConnect.Repositories;
 
 namespace EduConnect.Services
 {
-    public class NotificationService : INotificationService
+    public class ReportService : IReportService
     {
-        private readonly INotificationRepository _notificationRepository;
+        private readonly IReportRepository _reportRepository;
 
-        public NotificationService(INotificationRepository notificationRepository)
+        public ReportService(IReportRepository reportRepository)
         {
-            _notificationRepository = notificationRepository;
+            _reportRepository = reportRepository;
         }
 
-        public async Task CreateAsync(NotificationCreate dto)
+        public async Task CreateAsync(ReportCreate dto)
         {
-            var noti = new Notification
+            var report = new Report
             {
-                NotiId = Guid.NewGuid().ToString(),
+                ReportId = Guid.NewGuid().ToString(),
                 TeacherId = dto.TeacherId,
                 Title = dto.Title,
                 Description = dto.Description,
@@ -26,21 +26,21 @@ namespace EduConnect.Services
                 TeacherName = dto.TeacherName,
                 TermId = dto.TermID,
             };
-            await _notificationRepository.AddAsync(noti);
+            await _reportRepository.AddAsync(report);
         }
 
-        public async Task DeleteAsync(string notiId)
+        public async Task DeleteAsync(string reportId)
         {
-            await _notificationRepository.DeleteAsync(notiId);
+            await _reportRepository.DeleteAsync(reportId);
         }
 
-        //tim toan bo noti trong class
-        public async Task<List<Notification>> GetByClassIdAsync(string classId)
+        //tim toan bo report trong class
+        public async Task<List<Report>> GetByClassIdAsync(string classId)
         {
-            var list = await _notificationRepository.GetByClassIdAsync(classId);
-            return list.Select(n => new Notification
+            var list = await _reportRepository.GetByClassIdAsync(classId);
+            return list.Select(n => new Report
             {
-                NotiId = n.NotiId,
+                ReportId = n.ReportId,
                 Title = n.Title,
                 Description = n.Description,
                 ClassId = n.ClassId,
@@ -51,14 +51,14 @@ namespace EduConnect.Services
             }).ToList();
         }
 
-        //tim noti by id
-        public async Task<Notification?> GetByIdAsync(string notiId)
+        //tim report by id
+        public async Task<Report?> GetByIdAsync(string reportId)
         {
-            var n = await _notificationRepository.GetByIdAsync(notiId);
+            var n = await _reportRepository.GetByIdAsync(reportId);
             if (n == null) return null;
-            return new Notification
+            return new Report
             {
-                NotiId = n.NotiId,
+                ReportId = n.ReportId,
                 Title = n.Title,
                 Description = n.Description,
                 ClassId = n.ClassId,
