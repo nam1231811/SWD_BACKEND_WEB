@@ -24,6 +24,11 @@ namespace EduConnect.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<User>> GetAllUsersAsync()
+        {
+            return await _context.Users.ToListAsync();
+        }
+
         public async Task<User?> GetByEmailAsync(string email)
         {
             return await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
