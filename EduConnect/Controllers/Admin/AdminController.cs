@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EduConnect.Entities;
+using EduConnect.Services;
 
 namespace EduConnect.Controllers.Admin
 {
@@ -16,11 +17,13 @@ namespace EduConnect.Controllers.Admin
     {
         private readonly IUserRepository _userRepository;
         private readonly AppDbContext _appDbContext;
+        private readonly IUserService _userService;
 
-        public AdminController(IUserRepository userRepository, AppDbContext appDbContext)
+        public AdminController(IUserRepository userRepository, AppDbContext appDbContext, IUserService userService)
         {
             _userRepository = userRepository;
             _appDbContext = appDbContext;
+            _userService = userService;
         }
 
 
@@ -64,6 +67,15 @@ namespace EduConnect.Controllers.Admin
                 }
             }
             return Ok($"Role updated to {request.Role} for user {user.Email}");
+        }
+
+
+        //get info all user
+        [HttpGet("User")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var users = await _userService.GetAllUsersAsync();
+            return Ok(users);
         }
     }
 }

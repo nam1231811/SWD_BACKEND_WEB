@@ -36,7 +36,7 @@ builder.Services.AddScoped<IYearService, YearService>();
 builder.Services.AddScoped<ISemesterService, SemesterService>();
 builder.Services.AddScoped<ITermService, TermService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
-
+builder.Services.AddScoped<IUserService, UserService>();
 
 //them repository
 builder.Services.AddScoped<IScoreRepository, ScoreRepository>();
