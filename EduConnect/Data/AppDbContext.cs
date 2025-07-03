@@ -429,6 +429,10 @@ public partial class AppDbContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("role");
+            entity.Property(e => e.UserImage)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("userImage");
         });
 
 

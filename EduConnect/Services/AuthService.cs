@@ -77,6 +77,24 @@ namespace EduConnect.Services
                 CreateAt = DateTime.UtcNow,
             };
 
+            //upload file
+            if (request.UserImage != null && request.UserImage.Length > 0)
+            {
+                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+                if (!Directory.Exists(uploadsFolder))
+                    Directory.CreateDirectory(uploadsFolder);
+
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(request.UserImage.FileName);
+                var filePath = Path.Combine(uploadsFolder, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await request.UserImage.CopyToAsync(stream);
+                }
+
+                user.UserImage = "/uploads/" + fileName;
+            }
+
             //hash password
             user.PasswordHash = _passwordHasher.HashPassword(user, request.Password);
 
