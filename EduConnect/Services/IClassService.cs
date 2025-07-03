@@ -8,5 +8,7 @@ namespace EduConnect.Services
         Task CreateClassAsync(ClassCreate dto);
         Task UpdateClassAsync(ClassCreate dto);
         Task DeleteClassAsync(string ClassId);
+        Task<List<ClassProfile>> GetByTeacherIdAsync(string teacherId);
+
     }
 }
