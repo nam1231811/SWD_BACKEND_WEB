@@ -33,7 +33,8 @@ namespace EduConnect.Services
                 UserId = parent.UserId,
                 FullName = parent.User.FullName,
                 Email = parent.User.Email,
-                PhoneNumber = parent.User.PhoneNumber
+                PhoneNumber = parent.User.PhoneNumber,
+                UserImage = parent.User.UserImage
             };
         }
 
@@ -56,7 +57,7 @@ namespace EduConnect.Services
             }).ToList();
         }
 
-        public async Task<bool> UpdateProfileAsync(string email, UpdateParentProfile dto)
+        public async Task<bool> UpdateProfileAsync(string email, UpdateParentProfile dto, string? imagePath)
         {
             //tim parent theo userId
             var parent = await _parentRepository.GetByEmailAsync(email);
@@ -68,6 +69,10 @@ namespace EduConnect.Services
             parent.User.PhoneNumber = dto.PhoneNumber;
             parent.User.FirstName = dto.FirstName;
             parent.User.LastName = dto.LastName;
+            if (!string.IsNullOrEmpty(imagePath))
+            {
+                parent.User.UserImage = imagePath;
+            }
             //luu vao db
             await _userRepository.UpdateAsync(parent.User);
             return true;
