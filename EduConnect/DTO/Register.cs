@@ -12,5 +12,6 @@ namespace EduConnect.DTO
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public List<string>? StudentIds { get; set; }
+        public IFormFile? UserImage { get; set; }
     }
 }
