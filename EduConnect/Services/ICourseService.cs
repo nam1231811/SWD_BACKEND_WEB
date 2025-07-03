@@ -6,4 +6,5 @@ public interface ICourseService
 {
     Task<string> CreateAsync(CourseCreate dto);
     Task<CourseCreate?> GetByIdAsync(string id);
+    Task<List<CourseProfile>> GetByTeacherIdAsync(string teacherId);
 }

@@ -1,5 +1,6 @@
 ﻿using EduConnect.Data;
 using EduConnect.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace EduConnect.Repositories
 {
@@ -21,12 +22,11 @@ namespace EduConnect.Repositories
         public async Task DeleteClassAsync(string ClassId)
         {
             var classroom = await _appDbContext.Classrooms.FindAsync(ClassId);
-            if (classroom != null) 
-            { 
+            if (classroom != null)
+            {
                 _appDbContext.Classrooms.Remove(classroom);
                 await _appDbContext.SaveChangesAsync();
             }
-
         }
 
         public async Task<Classroom> GetByIdAsync(string ClassId)
@@ -36,8 +36,15 @@ namespace EduConnect.Repositories
 
         public async Task UpdateClassAsync(Classroom dto)
         {
-           _appDbContext.Classrooms.Update(dto);
+            _appDbContext.Classrooms.Update(dto);
             await _appDbContext.SaveChangesAsync();
+        }
+
+        public async Task<List<Classroom>> GetByTeacherIdAsync(string teacherId)
+        {
+            return await _appDbContext.Classrooms
+                .Where(c => c.TeacherId == teacherId)
+                .ToListAsync();
         }
     }
 }

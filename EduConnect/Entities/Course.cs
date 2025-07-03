@@ -21,6 +21,8 @@ public partial class Course
 
     public string? Status { get; set; }
 
+    public string? SubjectName { get; set; }
+
     public virtual Classroom? Class { get; set; }
 
     public virtual Teacher? Teacher { get; set; }

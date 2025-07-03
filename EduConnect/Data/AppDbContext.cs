@@ -67,12 +67,12 @@ public partial class AppDbContext : DbContext
 
             entity.Property(e => e.Note)
                 .HasMaxLength(255)
-                .IsUnicode(false)
+                .IsUnicode(true)
                 .HasColumnName("note");
 
             entity.Property(e => e.Participation)
                 .HasMaxLength(50)
-                .IsUnicode(false)
+                .IsUnicode(true)
                 .HasColumnName("participation");
 
             entity.Property(e => e.StudentId).HasColumnName("studentID");
@@ -102,7 +102,7 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.ParentId).HasColumnName("parentID");
             entity.Property(e => e.Title)
                 .HasMaxLength(255)
-                .IsUnicode(false)
+                .IsUnicode(true)
                 .HasColumnName("title");
 
             entity.HasOne(d => d.Message).WithMany(p => p.ChatBotLogs)
@@ -147,6 +147,10 @@ public partial class AppDbContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("status");
+            entity.Property(e => e.SubjectName)
+                .HasMaxLength(255)
+                .IsUnicode(true)
+                .HasColumnName("subjectName");
             entity.Property(e => e.TeacherId).HasColumnName("teacherID");
             entity.Property(e => e.SemeId).HasColumnName("semeID");
 
@@ -201,12 +205,12 @@ public partial class AppDbContext : DbContext
 
             entity.Property(e => e.TeacherName)
                 .HasMaxLength(255)
-                .IsUnicode(false)
+                .IsUnicode(true)
                 .HasColumnName("teacherName");
 
             entity.Property(e => e.ClassName)
                 .HasMaxLength(255)
-                .IsUnicode(false)
+                .IsUnicode(true)
                 .HasColumnName("className");
 
             entity.HasOne(d => d.Class).WithMany(p => p.Reports)
@@ -277,7 +281,7 @@ public partial class AppDbContext : DbContext
                 .HasForeignKey(d => d.SubjectId)
                 .HasConstraintName("FK__Score__subjectID__4CA06362");
 
-            entity.HasOne(d => d.Student) 
+            entity.HasOne(d => d.Student)
                 .WithMany(p => p.Scores)
                 .HasForeignKey(d => d.StudentId)
                 .HasConstraintName("FK_Score_Student");
@@ -295,7 +299,7 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.DateOfBirth).HasColumnName("dateOfBirth");
             entity.Property(e => e.FullName)
                 .HasMaxLength(255)
-                .IsUnicode(false)
+                .IsUnicode(true)
                 .HasColumnName("fullName");
             entity.Property(e => e.ParentId).HasColumnName("parentID");
 
@@ -317,7 +321,7 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.SubjectId).HasColumnName("subjectID");
             entity.Property(e => e.SubjectName)
                 .HasMaxLength(255)
-                .IsUnicode(false)
+                .IsUnicode(true)
                 .HasColumnName("subjectName");
             entity.Property(e => e.SemeId).HasColumnName("semeID");
 
@@ -414,7 +418,7 @@ public partial class AppDbContext : DbContext
                 .HasColumnName("email");
             entity.Property(e => e.FullName)
                 .HasMaxLength(255)
-                .IsUnicode(false)
+                .IsUnicode(true)
                 .HasColumnName("fullName");
             entity.Property(e => e.IsActive).HasColumnName("isActive");
             entity.Property(e => e.PasswordHash)
@@ -429,10 +433,6 @@ public partial class AppDbContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("role");
-            entity.Property(e => e.UserImage)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("userImage");
         });
 
 
