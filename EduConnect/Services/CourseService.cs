@@ -1,6 +1,7 @@
 ﻿using EduConnect.DTO;
 using EduConnect.Entities;
 using EduConnect.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace EduConnect.Services;
 
@@ -24,7 +25,8 @@ public class CourseService : ICourseService
             StartTime = dto.StartTime,
             EndTime = dto.EndTime,
             DayOfWeek = dto.DayOfWeek,
-            Status = dto.Status
+            Status = dto.Status,
+            SubjectName = dto.SubjectName
         };
 
         var result = await _repo.AddAsync(course);
@@ -44,7 +46,26 @@ public class CourseService : ICourseService
             StartTime = course.StartTime,
             EndTime = course.EndTime,
             DayOfWeek = course.DayOfWeek,
-            Status = course.Status
+            Status = course.Status,
+            SubjectName = course.SubjectName
         };
+    }
+
+    public async Task<List<CourseProfile>> GetByTeacherIdAsync(string teacherId)
+    {
+        var courses = await _repo.GetByTeacherIdAsync(teacherId);
+
+        return courses.Select(c => new CourseProfile
+        {
+            CourseId = c.CourseId,
+            ClassId = c.ClassId,
+            TeacherId = c.TeacherId,
+            SemeId = c.SemeId,
+            StartTime = c.StartTime,
+            EndTime = c.EndTime,
+            DayOfWeek = c.DayOfWeek,
+            Status = c.Status,
+            SubjectName = c.SubjectName
+        }).ToList();
     }
 }

@@ -28,4 +28,12 @@ public class CourseRepository : ICourseRepository
             .Include(c => c.Semester)
             .FirstOrDefaultAsync(c => c.CourseId == id);
     }
+
+    public async Task<List<Course>> GetByTeacherIdAsync(string teacherId)
+    {
+        return await _context.Courses
+            .Where(c => c.TeacherId == teacherId)
+            .ToListAsync();
+    }
+
 }
