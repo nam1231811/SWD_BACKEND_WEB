@@ -11,9 +11,12 @@ namespace EduConnect.Controllers.Classroom
     {
         private readonly IClassService _classService;
 
-        public ClassroomController(IClassService classService)
+        private readonly IStudentService _studentService;
+
+        public ClassroomController(IClassService classService, IStudentService studentService)
         {
             _classService = classService;
+            _studentService = studentService;
         }
 
         //tim theo id
@@ -58,6 +61,14 @@ namespace EduConnect.Controllers.Classroom
         {
             var result = await _classService.GetByTeacherIdAsync(teacherId);
             return Ok(result);
+        }
+
+        // GET /api/Classroom/{classId}/students
+        [HttpGet("{classId}/students")]
+        public async Task<IActionResult> GetStudentsByClassId(string classId)
+        {
+            var students = await _studentService.GetByClassIdAsync(classId);
+            return Ok(students);
         }
     }
 }
