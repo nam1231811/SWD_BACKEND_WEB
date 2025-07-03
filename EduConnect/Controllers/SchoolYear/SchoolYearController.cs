@@ -1,9 +1,11 @@
 ﻿using EduConnect.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduConnect.Controllers.SchoolYear
 {
+    //[Authorize(Roles = "Teacher")]
     [Route("api/[controller]")]
     [ApiController]
     public class SchoolYearController : ControllerBase
