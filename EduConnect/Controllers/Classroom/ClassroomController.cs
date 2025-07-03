@@ -51,5 +51,13 @@ namespace EduConnect.Controllers.Classroom
             await _classService.UpdateClassAsync(dto);
             return Ok("Classroom updated");
         }
+
+        // GET api/classroom/teacher/{teacherId}
+        [HttpGet("teacher/{teacherId}")]
+        public async Task<IActionResult> GetClassesByTeacherId(string teacherId)
+        {
+            var result = await _classService.GetByTeacherIdAsync(teacherId);
+            return Ok(result);
+        }
     }
 }
