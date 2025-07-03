@@ -66,11 +66,16 @@ namespace EduConnect.Controllers.Parent
 
             if (imageFile != null)
             {
-                var fileName = Guid.NewGuid() + Path.GetExtension(imageFile.FileName);
+                if (string.IsNullOrEmpty(_env.WebRootPath))
+                {
+                    return StatusCode(500, "Web root path is not configured.");
+                }
                 var savePath = Path.Combine(_env.WebRootPath, "images");
-
                 if (!Directory.Exists(savePath))
+                {
                     Directory.CreateDirectory(savePath);
+                }
+                var fileName = Guid.NewGuid() + Path.GetExtension(imageFile.FileName);              
 
                 var filePath = Path.Combine(savePath, fileName);
                 using (var stream = new FileStream(filePath, FileMode.Create))
