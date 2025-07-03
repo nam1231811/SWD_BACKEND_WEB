@@ -1,7 +1,8 @@
 ﻿namespace EduConnect.DTO
 {
-    public class CourseCreate
+    public class CourseProfile
     {
+        public string CourseId { get; set; } = default!;
         public string? ClassId { get; set; }
         public string? TeacherId { get; set; }
         public string? SemeId { get; set; }

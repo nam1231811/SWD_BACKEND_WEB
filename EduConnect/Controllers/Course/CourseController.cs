@@ -32,4 +32,12 @@ public class CourseController : ControllerBase
 
         return Ok(result);
     }
+
+    // GET: api/course/teacher/{teacherId}
+    [HttpGet("teacher/{teacherId}")]
+    public async Task<IActionResult> GetByTeacherId(string teacherId)
+    {
+        var result = await _service.GetByTeacherIdAsync(teacherId);
+        return Ok(result); // trả về List<CourseDetail>
+    }
 }

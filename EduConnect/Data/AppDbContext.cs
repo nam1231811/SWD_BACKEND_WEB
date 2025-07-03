@@ -147,6 +147,10 @@ public partial class AppDbContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("status");
+            entity.Property(e => e.SubjectName)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("subjectName");
             entity.Property(e => e.TeacherId).HasColumnName("teacherID");
             entity.Property(e => e.SemeId).HasColumnName("semeID");
 
@@ -277,7 +281,7 @@ public partial class AppDbContext : DbContext
                 .HasForeignKey(d => d.SubjectId)
                 .HasConstraintName("FK__Score__subjectID__4CA06362");
 
-            entity.HasOne(d => d.Student) 
+            entity.HasOne(d => d.Student)
                 .WithMany(p => p.Scores)
                 .HasForeignKey(d => d.StudentId)
                 .HasConstraintName("FK_Score_Student");
@@ -429,10 +433,6 @@ public partial class AppDbContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("role");
-            entity.Property(e => e.UserImage)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("userImage");
         });
 
 
