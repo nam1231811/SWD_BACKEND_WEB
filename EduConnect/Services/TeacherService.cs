@@ -27,8 +27,7 @@ public class TeacherService : ITeacherService
             Email = teacher.User.Email,
             PhoneNumber = teacher.User.PhoneNumber,
             CreateAt = teacher.User.CreateAt,
-            IsHomeroomTeacher = teacher.Classroom != null,
-            IsSubjectTeacher = teacher.Subject != null
+            UserImage = teacher.User.UserImage,
         };
     }
 

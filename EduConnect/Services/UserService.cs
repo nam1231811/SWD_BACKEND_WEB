@@ -23,7 +23,9 @@ namespace EduConnect.Services
                 Role = u.Role,
                 IsActive = u.IsActive,
                 CreateAt = u.CreateAt,
-                PhoneNumber = u.PhoneNumber
+                PhoneNumber = u.PhoneNumber,
+                UserImage = u.UserImage,
+
             });
         }
     }

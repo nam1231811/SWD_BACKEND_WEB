@@ -15,7 +15,7 @@ public class TeacherProfileDto
     public string? PhoneNumber { get; set; }
     public DateTime? CreateAt { get; set; }
 
-    public bool IsHomeroomTeacher { get; set; }
-    public bool IsSubjectTeacher { get; set; }
-}
+    public string? UserImage { get; set; }
 
+
+}

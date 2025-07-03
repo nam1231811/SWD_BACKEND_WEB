@@ -13,10 +13,12 @@ namespace EduConnect.Controllers.Parent
     public class ParentController : ControllerBase
     {
         private readonly IParentService _parentService;
+        private readonly IWebHostEnvironment _env;
 
-        public ParentController(IParentService parentService)
+        public ParentController(IParentService parentService, IWebHostEnvironment env)
         {
             _parentService = parentService;
+            _env = env;
         }
 
         //lay thong tin hoc sinh
@@ -44,7 +46,7 @@ namespace EduConnect.Controllers.Parent
 
             if (parentProfile == null)
             {
-                return NotFound("Can not the information");
+                return NotFound("Can not found the information");
             }
             return Ok(parentProfile);
         }
@@ -52,10 +54,35 @@ namespace EduConnect.Controllers.Parent
         //chinh sua profile
         // PUT: /api/parents/profile
         [HttpPut("profile")]
-        public async Task<IActionResult> UpdateProfile(string email, [FromBody] UpdateParentProfile dto)
+        public async Task<IActionResult> UpdateProfile(IFormFile? imageFile, [FromForm] UpdateParentProfile dto)
         {
+
+            //lay mail trong token
+            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            if (string.IsNullOrEmpty(email))
+                return Unauthorized("Email not found in token");
+
+            string? imagePath = null;
+
+            if (imageFile != null)
+            {
+                var fileName = Guid.NewGuid() + Path.GetExtension(imageFile.FileName);
+                var savePath = Path.Combine(_env.WebRootPath, "images");
+
+                if (!Directory.Exists(savePath))
+                    Directory.CreateDirectory(savePath);
+
+                var filePath = Path.Combine(savePath, fileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await imageFile.CopyToAsync(stream);
+                }
+
+                imagePath = "/images/" + fileName;
+            }
+
             //update thong tin
-            var success = await _parentService.UpdateProfileAsync(email, dto);
+            var success = await _parentService.UpdateProfileAsync(email, dto,imagePath);
             //loi tra not found
             if (!success)
             {
