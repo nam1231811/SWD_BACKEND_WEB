@@ -28,9 +28,16 @@ namespace EduConnect.Controllers.Attendance
             return Ok(data);
         }
 
+        [HttpGet("course/{courseId}")]
+        public async Task<IActionResult> GetByCourseId(string courseId)
+        {
+            var result = await _attendanceService.GetByCourseIdAsync(courseId);
+            return Ok(result);
+        }
+
         //tao attendance
         [HttpPost]
-        public async Task<IActionResult> CreateAttendance([FromBody] AttendanceCreate dto)
+        public async Task<IActionResult> CreateAttendance([FromBody] List<AttendanceCreate> dto)
         {
             await _attendanceService.AddAttendanceAsync(dto);
             return Ok("Created successfully");

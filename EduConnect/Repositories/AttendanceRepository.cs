@@ -12,9 +12,9 @@ namespace EduConnect.Repositories
         {
             _appDbContext = appDbContext;
         }
-        public async Task AddAttendanceAsync(Attendance attendance)
+        public async Task AddAttendanceAsync(List<Attendance> attendance)
         {
-           _appDbContext.Attendances.Add(attendance);
+            _appDbContext.Attendances.AddRange(attendance);
             await _appDbContext.SaveChangesAsync();
         }
 
@@ -24,6 +24,14 @@ namespace EduConnect.Repositories
                 .Include(a => a.Course)
                 .Include(a => a.Student)
                 .FirstOrDefaultAsync(a => a.AtID == id);
+        }
+
+        public async Task<IEnumerable<Attendance>> GetByCourseIdAsync(string courseId)
+        {
+            return await _appDbContext.Attendances
+            .Where(a => a.CourseId == courseId)
+            .Include(a => a.Student)
+            .ToListAsync();
         }
 
         public async Task UpdateAttendanceAsync(Attendance attendance)

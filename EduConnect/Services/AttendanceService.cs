@@ -13,9 +13,9 @@ namespace EduConnect.Services
             _attendanceRepository = attendanceRepository;
         }
 
-        public async Task AddAttendanceAsync(AttendanceCreate dto)
+        public async Task AddAttendanceAsync(List<AttendanceCreate> dto)
         {
-            var atten = new Attendance
+            var list = dto.Select(dto => new Attendance
             {
                 AtID = Guid.NewGuid().ToString(),
                 StudentId = dto.StudentId,
@@ -23,9 +23,10 @@ namespace EduConnect.Services
                 Participation = dto.Participation,
                 Note = dto.Note,
                 Homework = dto.Homework,
-                Focus = dto.Focus,
-            };
-            await _attendanceRepository.AddAttendanceAsync(atten);
+                Focus = dto.Focus
+            }).ToList();
+
+            await _attendanceRepository.AddAttendanceAsync(list);
         }
 
         public async Task<AttendanceCreate?> GetAttendanceByIdAsync(string id)
@@ -46,6 +47,20 @@ namespace EduConnect.Services
                 Focus = atten.Focus,
 
             };
+        }
+
+        public async Task<IEnumerable<AttendanceCreate>> GetByCourseIdAsync(string courseId)
+        {
+            var attendances = await _attendanceRepository.GetByCourseIdAsync(courseId);
+            return attendances.Select(a => new AttendanceCreate
+            {
+                AtID = a.AtID,
+                StudentId = a.StudentId,
+                Participation = a.Participation,
+                Note = a.Note,
+                Homework = a.Homework,
+                Focus = a.Focus
+            });
         }
 
         public async Task UpdateAttendanceAsync(AttendanceCreate dto)
