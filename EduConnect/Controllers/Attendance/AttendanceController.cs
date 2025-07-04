@@ -52,5 +52,12 @@ namespace EduConnect.Controllers.Attendance
             await _attendanceService.UpdateAttendanceAsync(dto);
             return Ok("Updated");
         }
+
+        [HttpGet("class/{classId}")]
+        public async Task<IActionResult> GetByClassId(string classId)
+        {
+            var result = await _attendanceService.GetByClassIdAsync(classId);
+            return Ok(result);
+        }
     }
 }

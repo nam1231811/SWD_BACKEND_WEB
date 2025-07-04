@@ -39,5 +39,12 @@ namespace EduConnect.Repositories
             _appDbContext.Attendances.Update(attendance);
             await _appDbContext.SaveChangesAsync();
         }
+        public async Task<List<Attendance>> GetByClassIdAsync(string classId)
+        {
+            return await _appDbContext.Attendances
+                .Include(a => a.Course)
+                .Where(a => a.Course.ClassId == classId)
+                .ToListAsync();
+        }
     }
 }
