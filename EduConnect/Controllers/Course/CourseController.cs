@@ -40,4 +40,12 @@ public class CourseController : ControllerBase
         var result = await _service.GetByTeacherIdAsync(teacherId);
         return Ok(result); // trả về List<CourseDetail>
     }
+
+    // GET: api/course/class/{classId}
+    [HttpGet("class/{classId}")]
+    public async Task<IActionResult> GetByClassId(string classId)
+    {
+        var result = await _service.GetByClassIdAsync(classId);
+        return Ok(result);
+    }
 }
