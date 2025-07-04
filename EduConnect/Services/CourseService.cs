@@ -68,4 +68,21 @@ public class CourseService : ICourseService
             SubjectName = c.SubjectName
         }).ToList();
     }
+
+    public async Task<List<CourseProfile>> GetByClassIdAsync(string classId)
+    {
+        var courses = await _repo.GetByClassIdAsync(classId);
+        return courses.Select(c => new CourseProfile
+        {
+            CourseId = c.CourseId,
+            ClassId = c.ClassId,
+            TeacherId = c.TeacherId,
+            SemeId = c.SemeId,
+            StartTime = c.StartTime,
+            EndTime = c.EndTime,
+            DayOfWeek = c.DayOfWeek,
+            Status = c.Status,
+            SubjectName = c.SubjectName
+        }).ToList();
+    }
 }

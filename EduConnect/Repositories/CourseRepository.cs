@@ -36,4 +36,10 @@ public class CourseRepository : ICourseRepository
             .ToListAsync();
     }
 
+    public async Task<List<Course>> GetByClassIdAsync(string classId)
+    {
+        return await _context.Courses
+            .Where(c => c.ClassId == classId)
+            .ToListAsync();
+    }
 }
