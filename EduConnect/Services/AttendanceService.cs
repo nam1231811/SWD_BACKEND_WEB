@@ -6,7 +6,7 @@ namespace EduConnect.Services
 {
     public class AttendanceService : IAttendanceService
     {
-        private readonly IAttendanceRepository  _attendanceRepository;
+        private readonly IAttendanceRepository _attendanceRepository;
 
         public AttendanceService(IAttendanceRepository attendanceRepository)
         {
@@ -31,7 +31,7 @@ namespace EduConnect.Services
 
         public async Task<AttendanceCreate?> GetAttendanceByIdAsync(string id)
         {
-           var atten = await _attendanceRepository.GetAttendanceByIdAsync(id);
+            var atten = await _attendanceRepository.GetAttendanceByIdAsync(id);
             if (atten == null)
             {
                 return null;
@@ -75,9 +75,23 @@ namespace EduConnect.Services
             atten.Note = dto.Note;
             atten.Focus = dto.Focus;
             atten.Homework = dto.Homework;
-             
-            await _attendanceRepository.UpdateAttendanceAsync(atten);
 
+            await _attendanceRepository.UpdateAttendanceAsync(atten);
+        }
+
+        public async Task<List<AttendanceProfile>> GetByClassIdAsync(string classId)
+        {
+            var data = await _attendanceRepository.GetByClassIdAsync(classId);
+            return data.Select(a => new AttendanceProfile
+            {
+                AtID = a.AtID,
+                StudentId = a.StudentId,
+                CourseId = a.CourseId,
+                Participation = a.Participation,
+                Note = a.Note,
+                Homework = a.Homework,
+                Focus = a.Focus
+            }).ToList();
         }
     }
 }
