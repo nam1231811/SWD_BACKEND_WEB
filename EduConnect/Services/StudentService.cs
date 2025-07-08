@@ -12,6 +12,19 @@ namespace EduConnect.Services
             _repo = repo;
         }
 
+        public async Task<IEnumerable<StudentInfo>> GetAllStudentsAsync()
+        {
+            var students = await _repo.GetAllStudentsAsync();
+
+            return students.Select(s => new StudentInfo
+            {
+                StudentId = s.StudentId,
+                FullName = s.FullName,
+                DateOfBirth = s.DateOfBirth,
+                ClassId = s.ClassId,
+            });
+        }
+
         public async Task<List<StudentInfo>> GetByClassIdAsync(string classId)
         {
             var students = await _repo.GetByClassIdAsync(classId);

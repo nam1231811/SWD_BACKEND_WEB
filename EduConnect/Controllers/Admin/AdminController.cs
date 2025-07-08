@@ -10,7 +10,7 @@ using EduConnect.Services;
 
 namespace EduConnect.Controllers.Admin
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class AdminController : ControllerBase
@@ -18,12 +18,14 @@ namespace EduConnect.Controllers.Admin
         private readonly IUserRepository _userRepository;
         private readonly AppDbContext _appDbContext;
         private readonly IUserService _userService;
+        private readonly IStudentService _studentService;
 
-        public AdminController(IUserRepository userRepository, AppDbContext appDbContext, IUserService userService)
+        public AdminController(IUserRepository userRepository, AppDbContext appDbContext, IUserService userService, IStudentService studentService)
         {
             _userRepository = userRepository;
             _appDbContext = appDbContext;
             _userService = userService;
+            _studentService = studentService;
         }
 
 
@@ -76,6 +78,14 @@ namespace EduConnect.Controllers.Admin
         {
             var users = await _userService.GetAllUsersAsync();
             return Ok(users);
+        }
+
+        //get all info student
+        [HttpGet("Student")]
+        public async Task<IActionResult> GetAllStudents()
+        {
+            var students = await _studentService.GetAllStudentsAsync();
+            return Ok(students);
         }
     }
 }
