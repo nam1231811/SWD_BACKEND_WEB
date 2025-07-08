@@ -7,5 +7,7 @@ namespace EduConnect.Repositories
         Task<Student?> GetByIdAsync(string studentId);
         Task UpdateAsync(Student student);
         Task<List<Student>> GetByClassIdAsync(string classId);
+
+        Task<IEnumerable<Student>> GetAllStudentsAsync();
     }
 }

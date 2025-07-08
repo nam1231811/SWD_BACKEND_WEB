@@ -30,5 +30,13 @@ namespace EduConnect.Repositories
                 .Where(s => s.ClassId == classId)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<Student>> GetAllStudentsAsync()
+        {
+            return await _context.Students
+            .Include(s => s.Class)
+            .Include(s => s.Parent)
+            .ToListAsync();
+        }
     }
 }
