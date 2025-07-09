@@ -13,13 +13,14 @@ public class ScoreService : IScoreService
         _scoreRepo = scoreRepo;
     }
 
-    public async Task<string> CreateScoreAsync(ScoreCreate dto) // Hàm này sẽ tạo một điểm số mới cho học sinh
+    public async Task<string> CreateScoreAsync(ScoreCreate dto)
     {
         var score = new Score
         {
             ScoreId = Guid.NewGuid().ToString(),
             StudentId = dto.StudentId,
-            SubjectId = dto.SubjectId,
+            SemeId = dto.SemeId,
+            Type = dto.Type,
             Score1 = dto.Score1
         };
 
@@ -27,12 +28,13 @@ public class ScoreService : IScoreService
         return result.ScoreId;
     }
 
-    public async Task<bool> UpdateScoreAsync(string scoreId, UpdateScore dto) // Hàm này sẽ cập nhật điểm số của học sinh
+    public async Task<bool> UpdateScoreAsync(string scoreId, UpdateScore dto)
     {
         var score = await _scoreRepo.GetByIdAsync(scoreId);
         if (score == null) return false;
 
         score.Score1 = dto.Score1;
+        score.Type = dto.Type;
         await _scoreRepo.UpdateAsync(score);
         return true;
     }

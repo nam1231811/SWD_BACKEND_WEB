@@ -6,7 +6,7 @@ namespace EduConnect.Entities;
 
 public partial class Semester
 {
-    [Key] public String SemeId { get; set; } = Guid.NewGuid().ToString();
+    [Key] public string SemeId { get; set; } = Guid.NewGuid().ToString();
 
     public DateOnly? StartDate { get; set; }
 
@@ -18,9 +18,11 @@ public partial class Semester
 
     public string? Status { get; set; }
 
-    public virtual SchoolYear? SchoolYear { get; set; }  // navigation property
+    public virtual SchoolYear? SchoolYear { get; set; }
 
     public virtual ICollection<Course> Courses { get; set; } = new List<Course>();
 
     public virtual ICollection<Subject> Subjects { get; set; } = new List<Subject>();
+
+    public virtual ICollection<Score> Scores { get; set; } = new List<Score>();
 }

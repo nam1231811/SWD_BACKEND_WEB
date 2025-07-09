@@ -72,6 +72,7 @@ public class CourseService : ICourseService
     public async Task<List<CourseProfile>> GetByClassIdAsync(string classId)
     {
         var courses = await _repo.GetByClassIdAsync(classId);
+
         return courses.Select(c => new CourseProfile
         {
             CourseId = c.CourseId,

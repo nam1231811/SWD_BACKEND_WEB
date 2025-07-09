@@ -59,7 +59,7 @@ public partial class AppDbContext : DbContext
 
             entity.Property(e => e.AtID)
                 .ValueGeneratedOnAdd()
-                .HasColumnName("id");
+                .HasColumnName("atID");
 
             entity.Property(e => e.CourseId).HasColumnName("courseID");
             entity.Property(e => e.Focus).HasColumnName("focus");
@@ -123,10 +123,19 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.ClassName).HasColumnName("className").HasMaxLength(255).IsUnicode(false);
             entity.Property(e => e.TeacherId).HasColumnName("teacherID");
 
+            entity.Property(e => e.SchoolYearId).HasColumnName("schoolYearID").HasMaxLength(50).IsUnicode(false);
+            entity.Property(e => e.StartDate).HasColumnName("startDate");  
+            entity.Property(e => e.EndDate).HasColumnName("endDate");       
+
             entity.HasOne(d => d.Teacher)
-                .WithOne(p => p.Classroom) // <- 1-1
+                .WithOne(p => p.Classroom)
                 .HasForeignKey<Classroom>(d => d.TeacherId)
                 .HasConstraintName("FK_Classroom_Teacher");
+
+            entity.HasOne(d => d.SchoolYear)
+                .WithMany(p => p.Classrooms)
+                .HasForeignKey(d => d.SchoolYearId)
+                .HasConstraintName("FK_Classroom_SchoolYear"); 
         });
 
         modelBuilder.Entity<Course>(entity =>
@@ -137,20 +146,25 @@ public partial class AppDbContext : DbContext
 
             entity.Property(e => e.CourseId).HasColumnName("courseID");
             entity.Property(e => e.ClassId).HasColumnName("classID");
+
             entity.Property(e => e.DayOfWeek)
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("dayOfWeek");
+
             entity.Property(e => e.EndTime).HasColumnName("endTime");
             entity.Property(e => e.StartTime).HasColumnName("startTime");
+
             entity.Property(e => e.Status)
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("status");
+
             entity.Property(e => e.SubjectName)
                 .HasMaxLength(255)
                 .IsUnicode(true)
                 .HasColumnName("subjectName");
+
             entity.Property(e => e.TeacherId).HasColumnName("teacherID");
             entity.Property(e => e.SemeId).HasColumnName("semeID");
 
@@ -273,20 +287,25 @@ public partial class AppDbContext : DbContext
                 .HasColumnType("decimal(5, 2)")
                 .HasColumnName("score");
 
-            entity.Property(e => e.SubjectId).HasColumnName("subjectID");
             entity.Property(e => e.StudentId).HasColumnName("studentID");
 
-            entity.HasOne(d => d.Subject)
+            entity.Property(e => e.SemeId).HasColumnName("semeID");
+
+            entity.Property(e => e.Type)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("type");
+
+            entity.HasOne(d => d.Semester)
                 .WithMany(p => p.Scores)
-                .HasForeignKey(d => d.SubjectId)
-                .HasConstraintName("FK__Score__subjectID__4CA06362");
+                .HasForeignKey(d => d.SemeId)
+                .HasConstraintName("FK_Score_Semester");
 
             entity.HasOne(d => d.Student)
                 .WithMany(p => p.Scores)
                 .HasForeignKey(d => d.StudentId)
                 .HasConstraintName("FK_Score_Student");
         });
-
 
         modelBuilder.Entity<Student>(entity =>
         {
@@ -379,15 +398,25 @@ public partial class AppDbContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("status");
+
+            entity.HasOne(d => d.SchoolYear)
+                .WithMany(p => p.Semesters)
+                .HasForeignKey(d => d.SchoolYearID)
+                .HasConstraintName("FK_Semester_SchoolYear");
+
+            entity.HasMany(e => e.Scores)
+                .WithOne(e => e.Semester)
+                .HasForeignKey(e => e.SemeId)
+                .HasConstraintName("FK_Score_Semester");
         });
 
         modelBuilder.Entity<SchoolYear>(entity =>
         {
-            entity.HasKey(e => e.SchoolYearID).HasName("PK_SchoolYear");
+            entity.HasKey(e => e.SchoolYearId).HasName("PK_SchoolYear");
 
             entity.ToTable("SchoolYear");
 
-            entity.Property(e => e.SchoolYearID)
+            entity.Property(e => e.SchoolYearId)
                 .HasColumnName("schoolYearID")
                 .HasMaxLength(50)
                 .IsUnicode(false);

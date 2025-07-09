@@ -13,8 +13,8 @@ public partial class Subject
     public String? SemeId { get; set; }
 
     public virtual ICollection<Score> Scores { get; set; } = new List<Score>();
-
     public virtual ICollection<Teacher> Teachers { get; set; } = new List<Teacher>();
+    public virtual ICollection<Course> Courses { get; set; } = new List<Course>();
 
     public virtual Semester? Semester { get; set; }
 }

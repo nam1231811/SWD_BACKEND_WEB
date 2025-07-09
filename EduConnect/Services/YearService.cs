@@ -21,7 +21,7 @@ namespace EduConnect.Services
             }
             return new GetYear
             {
-                SchoolYearID = year.SchoolYearID,
+                SchoolYearId = year.SchoolYearId,
                 StartDate = year.StartDate,
                 EndDate = year.EndDate,
                 Status = year.Status,

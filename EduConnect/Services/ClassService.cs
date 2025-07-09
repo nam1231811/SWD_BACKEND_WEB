@@ -20,6 +20,9 @@ namespace EduConnect.Services
                 ClassId = Guid.NewGuid().ToString(),
                 ClassName = dto.ClassName,
                 TeacherId = dto.TeacherId,
+                SchoolYearId = dto.SchoolYearId,
+                StartDate = dto.StartDate,
+                EndDate = dto.EndDate
             };
             await _repo.CreateClassAsync(classroom);
         }
@@ -29,8 +32,7 @@ namespace EduConnect.Services
             await _repo.DeleteClassAsync(classId);
         }
 
-        // Trả về ClassProfile
-        public async Task<ClassCreate> GetByIdAsync(string classId)
+        public async Task<ClassCreate?> GetByIdAsync(string classId)
         {
             var cls = await _repo.GetByIdAsync(classId);
             if (cls == null) return null;
@@ -39,7 +41,10 @@ namespace EduConnect.Services
             {
                 ClassId = cls.ClassId,
                 ClassName = cls.ClassName,
-                TeacherId = cls.TeacherId
+                TeacherId = cls.TeacherId,
+                SchoolYearId = cls.SchoolYearId,
+                StartDate = cls.StartDate,
+                EndDate = cls.EndDate
             };
         }
 
@@ -50,10 +55,13 @@ namespace EduConnect.Services
 
             classroom.ClassName = dto.ClassName;
             classroom.TeacherId = dto.TeacherId;
+            classroom.SchoolYearId = dto.SchoolYearId;
+            classroom.StartDate = dto.StartDate;
+            classroom.EndDate = dto.EndDate;
+
             await _repo.UpdateClassAsync(classroom);
         }
 
-        // Trả danh sách lớp theo giáo viên chủ nhiệm
         public async Task<List<ClassProfile>> GetByTeacherIdAsync(string teacherId)
         {
             var list = await _repo.GetByTeacherIdAsync(teacherId);
@@ -61,7 +69,10 @@ namespace EduConnect.Services
             {
                 ClassId = cls.ClassId,
                 ClassName = cls.ClassName,
-                TeacherId = cls.TeacherId
+                TeacherId = cls.TeacherId,
+                SchoolYearId = cls.SchoolYearId,
+                StartDate = cls.StartDate,
+                EndDate = cls.EndDate
             }).ToList();
         }
     }
