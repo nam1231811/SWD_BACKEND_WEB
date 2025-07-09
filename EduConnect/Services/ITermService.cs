@@ -1,11 +1,8 @@
 ﻿using EduConnect.DTO;
 
-namespace EduConnect.Services
+public interface ITermService
 {
-    public interface ITermService
-    {
-        Task<TermCreated?> GetTermById (string termId);
-        Task CreateTerm(TermCreated term);
-        Task UpdateTerm(TermCreated term);
-    }
+    Task<TermCreated?> GetTermById(string termId);
+    Task<string> CreateTerm(TermCreated term);
+    Task UpdateTerm(TermCreated term);
 }

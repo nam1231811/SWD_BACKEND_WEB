@@ -32,8 +32,8 @@ namespace EduConnect.Controllers.Term
         [HttpPost]
         public async Task<IActionResult> CreateTerm([FromBody] TermCreated dto)
         {
-            await _termService.CreateTerm(dto);
-            return Ok("Term created");
+            var termId = await _termService.CreateTerm(dto);
+            return Ok(new { TermId = termId });
         }
 
         //update term
