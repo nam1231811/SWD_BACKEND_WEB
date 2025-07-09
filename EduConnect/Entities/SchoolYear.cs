@@ -6,7 +6,7 @@ namespace EduConnect.Entities
 {
     public partial class SchoolYear
     {
-        [Key] public string SchoolYearID { get; set; } = Guid.NewGuid().ToString();
+        [Key] public string SchoolYearId { get; set; } = Guid.NewGuid().ToString();
 
         public DateOnly? StartDate { get; set; }
 
@@ -15,5 +15,7 @@ namespace EduConnect.Entities
         public string? Status { get; set; }
 
         public virtual ICollection<Semester> Semesters { get; set; } = new List<Semester>();
+        public virtual ICollection<Classroom> Classrooms { get; set; } = new List<Classroom>();
+
     }
 }

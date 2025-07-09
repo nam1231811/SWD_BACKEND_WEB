@@ -2,7 +2,7 @@
 {
     public class CourseProfile
     {
-        public string CourseId { get; set; } = default!;
+        public string CourseId { get; set; }
         public string? ClassId { get; set; }
         public string? TeacherId { get; set; }
         public string? SemeId { get; set; }

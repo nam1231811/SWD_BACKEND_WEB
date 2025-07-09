@@ -11,7 +11,7 @@ namespace EduConnect.Services
         {
             _termRepository = termRepository;
         }
-        public async Task CreateTerm(TermCreated term)
+        public async Task<string> CreateTerm(TermCreated term)
         {
             var terms = new Term
             {
@@ -22,6 +22,7 @@ namespace EduConnect.Services
                 ReportId = term.ReportId,
             };
             await _termRepository.CreateTerm(terms);
+            return terms.TermID;
         }
 
         public async Task<TermCreated?> GetTermById(string termId)
