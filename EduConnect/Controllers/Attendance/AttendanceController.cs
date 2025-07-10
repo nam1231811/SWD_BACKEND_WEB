@@ -37,7 +37,7 @@ namespace EduConnect.Controllers.Attendance
             return Ok(result);
         }
 
-        [HttpGet("fcm-token/{attendanceId}")]
+        [HttpGet("fcm-token/{atId}")]
         public async Task<IActionResult> GetTeacherFcmByAttendanceId(string atId)
         {
             var result = await _attendanceService.GetTeacherFcmByAttendanceIdAsync(atId);
