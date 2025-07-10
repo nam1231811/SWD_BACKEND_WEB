@@ -59,5 +59,14 @@ namespace EduConnect.Controllers.Attendance
             var result = await _attendanceService.GetByClassIdAsync(classId);
             return Ok(result);
         }
+
+        //delete
+        [HttpDelete("course/{courseId}")]
+        public async Task<IActionResult> DeleteAllByCourseId(string courseId)
+        {
+            var result = await _attendanceService.DeleteAllByCourseIdAsync(courseId);
+            if (!result) return NotFound("Can found Attendance by CourseId");
+            return Ok("Delete Sucessfull.");
+        }
     }
 }

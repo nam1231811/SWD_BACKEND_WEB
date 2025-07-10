@@ -9,5 +9,7 @@ namespace EduConnect.Repositories
         Task UpdateAttendanceAsync(Attendance attendance);
         Task<IEnumerable<Attendance>> GetByCourseIdAsync(string courseId);
         Task<List<Attendance>> GetByClassIdAsync(string classId);
+        Task<bool> DeleteAllByCourseIdAsync(string courseId);
+
     }
 }

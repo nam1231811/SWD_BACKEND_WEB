@@ -93,5 +93,10 @@ namespace EduConnect.Services
                 Focus = a.Focus
             }).ToList();
         }
+
+        public async Task<bool> DeleteAllByCourseIdAsync(string courseId)
+        {
+            return await _attendanceRepository.DeleteAllByCourseIdAsync(courseId);
+        }
     }
 }

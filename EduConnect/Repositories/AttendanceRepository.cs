@@ -46,5 +46,20 @@ namespace EduConnect.Repositories
                 .Where(a => a.Course.ClassId == classId)
                 .ToListAsync();
         }
+
+        public async Task<bool> DeleteAllByCourseIdAsync(string courseId)
+        {
+            //list all attendence theo courseId
+            var results = await _appDbContext.Attendances
+            .Where(a => a.CourseId == courseId)
+            .ToListAsync();
+            if (!results.Any())
+            {
+                return false;
+            }
+            _appDbContext.Attendances.RemoveRange(results);
+            await _appDbContext.SaveChangesAsync();
+            return true;
+        }
     }
 }
