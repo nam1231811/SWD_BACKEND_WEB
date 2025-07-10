@@ -98,5 +98,10 @@ namespace EduConnect.Services
         {
             return await _attendanceRepository.DeleteAllByCourseIdAsync(courseId);
         }
+
+        public async Task<TeacherFcmToken?> GetTeacherFcmByAttendanceIdAsync(string atId)
+        {
+            return await _attendanceRepository.GetTeacherFcmByAttendanceIdAsync(atId);
+        }
     }
 }
