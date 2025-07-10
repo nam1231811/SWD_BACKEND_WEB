@@ -9,5 +9,6 @@ namespace EduConnect.Services
         Task UpdateAttendanceAsync(AttendanceCreate dto);
         Task<IEnumerable<AttendanceCreate>> GetByCourseIdAsync(string courseId);
         Task<List<AttendanceProfile>> GetByClassIdAsync(string classId);
+        Task<bool> DeleteAllByCourseIdAsync(string courseId);
     }
 }
