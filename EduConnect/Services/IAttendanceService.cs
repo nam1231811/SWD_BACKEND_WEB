@@ -10,5 +10,6 @@ namespace EduConnect.Services
         Task<IEnumerable<AttendanceCreate>> GetByCourseIdAsync(string courseId);
         Task<List<AttendanceProfile>> GetByClassIdAsync(string classId);
         Task<bool> DeleteAllByCourseIdAsync(string courseId);
+        Task<TeacherFcmToken?> GetTeacherFcmByAttendanceIdAsync(string atId);
     }
 }

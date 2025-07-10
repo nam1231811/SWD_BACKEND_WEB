@@ -37,6 +37,17 @@ namespace EduConnect.Controllers.Attendance
             return Ok(result);
         }
 
+        [HttpGet("fcm-token/{attendanceId}")]
+        public async Task<IActionResult> GetTeacherFcmByAttendanceId(string atId)
+        {
+            var result = await _attendanceService.GetTeacherFcmByAttendanceIdAsync(atId);
+            if (result == null)
+                return NotFound("Can not find teacher token");
+
+            return Ok(result);
+        }
+
+
         //tao attendance
         [HttpPost]
         public async Task<IActionResult> CreateAttendance([FromBody] List<AttendanceCreate> dto)
@@ -68,5 +79,7 @@ namespace EduConnect.Controllers.Attendance
             if (!result) return NotFound("Can found Attendance by CourseId");
             return Ok("Delete Sucessfull.");
         }
+
+        
     }
 }

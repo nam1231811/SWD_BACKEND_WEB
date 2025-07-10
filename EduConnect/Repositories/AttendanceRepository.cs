@@ -1,4 +1,5 @@
 ﻿using EduConnect.Data;
+using EduConnect.DTO;
 using EduConnect.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -60,6 +61,24 @@ namespace EduConnect.Repositories
             _appDbContext.Attendances.RemoveRange(results);
             await _appDbContext.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<TeacherFcmToken?> GetTeacherFcmByAttendanceIdAsync(string atId)
+        {
+            var data = await _appDbContext.Attendances
+             .Where(a => a.AtID == atId)
+             .Include(a => a.Course)
+                 .ThenInclude(c => c.Class)
+                     .ThenInclude(cl => cl.Teacher)
+             .Select(a => new TeacherFcmToken
+             {
+                 TeacherId = a.Course.Class.Teacher.TeacherId,
+                 FcmToken = a.Course.Class.Teacher.FcmToken,
+                 Platform = a.Course.Class.Teacher.Platform
+             })
+             .FirstOrDefaultAsync();
+
+            return data;
         }
     }
 }

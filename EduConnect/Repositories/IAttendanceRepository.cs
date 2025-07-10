@@ -1,4 +1,5 @@
-﻿using EduConnect.Entities;
+﻿using EduConnect.DTO;
+using EduConnect.Entities;
 
 namespace EduConnect.Repositories
 {
@@ -10,6 +11,7 @@ namespace EduConnect.Repositories
         Task<IEnumerable<Attendance>> GetByCourseIdAsync(string courseId);
         Task<List<Attendance>> GetByClassIdAsync(string classId);
         Task<bool> DeleteAllByCourseIdAsync(string courseId);
-
+        Task<TeacherFcmToken?> GetTeacherFcmByAttendanceIdAsync(string atId);
     }
 }
+
