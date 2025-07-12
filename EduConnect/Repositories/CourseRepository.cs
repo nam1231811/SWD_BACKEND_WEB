@@ -42,4 +42,13 @@ public class CourseRepository : ICourseRepository
             .Where(c => c.ClassId == classId)
             .ToListAsync();
     }
+    public async Task UpdateStatusAsync(string courseId, string status)
+    {
+        var course = await _context.Courses.FindAsync(courseId);
+        if (course != null)
+        {
+            course.Status = status;
+            await _context.SaveChangesAsync();
+        }
+    }
 }

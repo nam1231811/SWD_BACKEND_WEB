@@ -86,4 +86,8 @@ public class CourseService : ICourseService
             SubjectName = c.SubjectName
         }).ToList();
     }
+    public async Task UpdateStatusAsync(UpdateCourse dto)
+    {
+        await _repo.UpdateStatusAsync(dto.CourseId, dto.Status);
+    }
 }
