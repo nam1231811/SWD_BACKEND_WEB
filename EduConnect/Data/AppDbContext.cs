@@ -236,9 +236,9 @@ public partial class AppDbContext : DbContext
                 .HasConstraintName("FK__Report__teach__5812160E");
 
             entity.HasOne(d => d.Term)
-                .WithOne(p => p.Report)
-                .HasForeignKey<Term>(p => p.ReportId)
-                .HasConstraintName("FK_Term_Report");
+                .WithMany(p => p.Reports)
+                .HasForeignKey(d => d.TermId)
+                .HasConstraintName("FK_Report_Term");
         });
 
         modelBuilder.Entity<Term>(entity =>
@@ -248,17 +248,15 @@ public partial class AppDbContext : DbContext
             entity.ToTable("Term");
 
             entity.Property(e => e.TermID).HasColumnName("termID");
+
             entity.Property(e => e.Mode)
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("mode");
 
-            entity.Property(e => e.ReportId).HasColumnName("ReportId");
-
-            entity.HasOne(d => d.Report)
-                .WithOne(p => p.Term)
-                .HasForeignKey<Term>(d => d.ReportId)
-                .HasConstraintName("FK_Term_Report");
+            entity.Property(e => e.StartTime).HasColumnName("StartTime");
+            entity.Property(e => e.EndTime).HasColumnName("EndTime");
+            entity.Property(e => e.CreatedAt).HasColumnName("CreatedAt");
         });
 
         modelBuilder.Entity<Parent>(entity =>
