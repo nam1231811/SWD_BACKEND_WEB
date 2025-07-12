@@ -48,4 +48,12 @@ public class CourseController : ControllerBase
         var result = await _service.GetByClassIdAsync(classId);
         return Ok(result);
     }
+
+    // PUT: api/course/status
+    [HttpPut("status")]
+    public async Task<IActionResult> UpdateStatus([FromBody] UpdateCourse dto)
+    {
+        await _service.UpdateStatusAsync(dto);
+        return Ok(new { message = "Cập nhật trạng thái thành công" });
+    }
 }
