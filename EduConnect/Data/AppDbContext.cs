@@ -210,11 +210,11 @@ public partial class AppDbContext : DbContext
 
             entity.Property(e => e.Title)
                 .HasMaxLength(255)
-                .IsUnicode(false)
+                .IsUnicode(true)
                 .HasColumnName("title");
 
             entity.Property(e => e.Description)
-                .HasColumnType("text")
+                .HasColumnType("nvarchar(max)")
                 .HasColumnName("description");
 
             entity.Property(e => e.TeacherName)
@@ -251,7 +251,7 @@ public partial class AppDbContext : DbContext
 
             entity.Property(e => e.Mode)
                 .HasMaxLength(100)
-                .IsUnicode(false)
+                .IsUnicode(true)
                 .HasColumnName("mode");
 
             entity.Property(e => e.StartTime).HasColumnName("StartTime");
@@ -384,7 +384,7 @@ public partial class AppDbContext : DbContext
 
             entity.Property(e => e.SemesterName)
                 .HasMaxLength(255)
-                .IsUnicode(false)
+                .IsUnicode(true)
                 .HasColumnName("semesterName");
 
             entity.Property(e => e.SchoolYearID)
