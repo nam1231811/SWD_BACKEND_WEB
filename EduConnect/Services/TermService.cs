@@ -7,10 +7,12 @@ namespace EduConnect.Services
     public class TermService : ITermService
     {
         private readonly ITermRepository _termRepository;
-        public TermService(ITermRepository termRepository) 
+
+        public TermService(ITermRepository termRepository)
         {
             _termRepository = termRepository;
         }
+
         public async Task<string> CreateTerm(TermCreated term)
         {
             var terms = new Term
@@ -19,6 +21,7 @@ namespace EduConnect.Services
                 StartTime = term.StartTime,
                 EndTime = term.EndTime,
                 CreatedAt = DateTime.Now,
+                Mode = term.Mode // thêm Mode khi tạo
             };
             await _termRepository.CreateTerm(terms);
             return terms.TermID;
@@ -35,8 +38,9 @@ namespace EduConnect.Services
             {
                 TermID = terms.TermID,
                 StartTime = terms.StartTime,
-                CreatedAt = DateTime.Now,
                 EndTime = terms.EndTime,
+                CreatedAt = terms.CreatedAt,
+                Mode = terms.Mode
             };
         }
 
@@ -48,9 +52,9 @@ namespace EduConnect.Services
                 return;
             }
             terms.StartTime = term.StartTime;
-            term.EndTime = term.EndTime;
+            terms.EndTime = term.EndTime;
+            terms.Mode = term.Mode;
             await _termRepository.UpdateTerm(terms);
-
         }
     }
 }
