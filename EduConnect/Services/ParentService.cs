@@ -53,7 +53,7 @@ namespace EduConnect.Services
                 StudentId = s.StudentId,
                 FullName = s.FullName,
                 DateOfBirth = s.DateOfBirth,
-                ClassId = s.Class?.ClassName
+                ClassId = s.Class?.ClassId
             }).ToList();
         }
 

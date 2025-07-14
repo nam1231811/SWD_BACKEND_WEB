@@ -21,6 +21,7 @@ namespace EduConnect.Repositories
             return await _context.Parents
                 .Include(p => p.User)
                 .Include(p => p.Students)
+                .ThenInclude(s => s.Class)
                 .FirstOrDefaultAsync(p => p.User != null && p.User.Email == email);
         }
 
