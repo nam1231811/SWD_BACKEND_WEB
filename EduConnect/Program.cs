@@ -39,6 +39,10 @@ builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddHttpClient<GroqService>();
+builder.Services.AddScoped<StudentStatusService>();
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<GroqService>();
 
 //them repository
 builder.Services.AddScoped<IScoreRepository, ScoreRepository>();
@@ -55,6 +59,7 @@ builder.Services.AddScoped<ISemesterRepository, SemesterRepository>();
 builder.Services.AddScoped<ITermRepository, TermRepository>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+builder.Services.AddScoped<IChatBotLogRepository, ChatBotLogRepository>();
 
 
 //cau hinh JWT

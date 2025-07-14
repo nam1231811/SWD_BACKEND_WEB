@@ -38,7 +38,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\AIChatBot\" />
 	  <Folder Include="Controllers\Teacher\" />
     <Folder Include="Controllers\Parent\" />
   </ItemGroup>
