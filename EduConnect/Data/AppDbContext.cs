@@ -189,11 +189,11 @@ public partial class AppDbContext : DbContext
 
             entity.Property(e => e.MessageId).HasColumnName("messageID");
             entity.Property(e => e.CreatedAt).HasColumnName("createdAt");
+
             entity.Property(e => e.MessageText)
-                .HasColumnType("text")
                 .HasColumnName("messageText");
+
             entity.Property(e => e.ResponseText)
-                .HasColumnType("text")
                 .HasColumnName("responseText");
         });
 
