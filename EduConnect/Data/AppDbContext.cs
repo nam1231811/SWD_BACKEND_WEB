@@ -149,7 +149,7 @@ public partial class AppDbContext : DbContext
 
             entity.Property(e => e.DayOfWeek)
                 .HasMaxLength(50)
-                .IsUnicode(false)
+                .IsUnicode(true)
                 .HasColumnName("dayOfWeek");
 
             entity.Property(e => e.EndTime).HasColumnName("endTime");
@@ -157,7 +157,7 @@ public partial class AppDbContext : DbContext
 
             entity.Property(e => e.Status)
                 .HasMaxLength(255)
-                .IsUnicode(false)
+                .IsUnicode(true)
                 .HasColumnName("status");
 
             entity.Property(e => e.SubjectName)
