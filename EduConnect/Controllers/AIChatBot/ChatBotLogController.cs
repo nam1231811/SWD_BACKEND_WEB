@@ -27,12 +27,26 @@ namespace EduConnect.Controllers.AIChatBot
         [HttpPost("ask")]
         public async Task<IActionResult> Ask([FromBody] ChatRequest dto)
         {
-            var prompt = await _studentStatusService.GenerateFullStudentContextAsync(dto.ParentId);
-            var fullPrompt = $"{prompt}\n\nCâu hỏi của phụ huynh: {dto.MessageText}";
+            // 🧠 Lấy thông tin học sinh + phụ huynh từ DB
+            var studentContext = await _studentStatusService.GenerateFullStudentContextAsync(dto.ParentId);
+
+            // 🗨️ Tạo prompt gửi lên Groq API
+            var fullPrompt = $@"
+Dữ liệu hệ thống cung cấp:
+
+{studentContext}
+
+Câu hỏi của phụ huynh:
+""{dto.MessageText}""
+";
+
+            // 🤖 Gửi lên Groq để nhận phản hồi AI
             var reply = await _groqService.AskAsync(fullPrompt);
 
+            // 📝 Ghi log lại câu hỏi - câu trả lời
             await _chatBotLogRepository.CreateLogAsync(dto.ParentId, dto.MessageText, reply);
 
+            // 📦 Trả về cho client
             return Ok(new { reply });
         }
     }

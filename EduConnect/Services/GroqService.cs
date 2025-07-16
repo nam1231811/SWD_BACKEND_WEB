@@ -9,6 +9,24 @@ namespace EduConnect.Services
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly string _apiKey;
 
+        // ✅ System prompt chi tiết, rõ vai trò
+        private const string SystemPrompt = @"
+Bạn là trợ lý giáo vụ của hệ thống quản lý trường học. Nhiệm vụ của bạn là:
+
+1. Trả lời các câu hỏi của phụ huynh học sinh bằng tiếng Việt, ngắn gọn, đúng trọng tâm và lịch sự.
+2. Chỉ sử dụng dữ liệu đã được cung cấp bên dưới (thông tin học sinh, điểm số, thời khóa biểu, giáo viên...).
+3. Nếu câu hỏi liên quan đến:
+   - 🗓️ Hôm nay học gì: trích thông tin từ phần '📅 Tình hình học tập hôm nay'.
+   - 📆 Lịch học: sử dụng phần '📚 Thời khóa biểu trong tuần' hoặc '📆 Lịch học sắp tới'.
+   - 📊 Điểm số: từ phần '📊 Điểm số'.
+   - 👨‍🏫 Giáo viên chủ nhiệm: từ phần '👨‍🏫 Giáo viên chủ nhiệm'.
+   - 👪 Thông tin phụ huynh: từ phần '👨‍👩‍👧‍👦 Thông tin phụ huynh'.
+4. Nếu không có thông tin phù hợp, hãy lịch sự trả lời rằng hiện chưa có dữ liệu.
+5. Không tự suy diễn hoặc tạo thêm thông tin ngoài những gì được cung cấp.
+
+Câu trả lời cần chính xác, rõ ràng và không dư thừa.
+";
+
         public GroqService(IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
             _httpClientFactory = httpClientFactory;
@@ -26,9 +44,9 @@ namespace EduConnect.Services
                 model = "llama3-70b-8192",
                 messages = new[]
                 {
-                new { role = "system", content = "Bạn là trợ lý giáo vụ..." },
-                new { role = "user", content = fullPrompt }
-            },
+                    new { role = "system", content = SystemPrompt },
+                    new { role = "user", content = fullPrompt }
+                },
                 temperature = 0.7,
                 max_tokens = 1000
             };
