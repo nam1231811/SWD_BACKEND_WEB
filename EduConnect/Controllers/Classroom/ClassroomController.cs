@@ -20,16 +20,38 @@ namespace EduConnect.Controllers.Classroom
         }
 
         //tim theo id
-        [HttpGet("{ClassId}")]
-        public async Task<IActionResult> GetClassById(String ClassId)
+        //[HttpGet("{ClassId}")]
+        //public async Task<IActionResult> GetClassById(String ClassId)
+        //{
+        //    var result = await _classService.GetByIdAsync(ClassId);
+        //    if (result == null)
+        //    {
+        //        return NotFound("Classroom is not available");
+        //    }
+        //    return Ok(result);
+        //}
+
+        [HttpGet]
+        public async Task<IActionResult> GetClass([FromQuery] string? classId, [FromQuery] string? teacherId)
         {
-            var result = await _classService.GetByIdAsync(ClassId);
-            if (result == null)
+            if (!string.IsNullOrEmpty(classId))
             {
-                return NotFound("Classroom is not available");
+                var result = await _classService.GetByIdAsync(classId);
+                if (result == null)
+                    return NotFound("Classroom is not available");
+
+                return Ok(result);
             }
-            return Ok(result);
+
+            if (!string.IsNullOrEmpty(teacherId))
+            {
+                var result = await _classService.GetByTeacherIdAsync(teacherId);
+                return Ok(result);
+            }
+
+            return BadRequest("Vui lòng cung cấp classId hoặc teacherId");
         }
+
 
         //tao class moi
         [HttpPost]
@@ -56,12 +78,12 @@ namespace EduConnect.Controllers.Classroom
         }
 
         // GET api/classroom/teacher/{teacherId}
-        [HttpGet("teacher/{teacherId}")]
-        public async Task<IActionResult> GetClassesByTeacherId(string teacherId)
-        {
-            var result = await _classService.GetByTeacherIdAsync(teacherId);
-            return Ok(result);
-        }
+        //[HttpGet("teacher/{teacherId}")]
+        //public async Task<IActionResult> GetClassesByTeacherId(string teacherId)
+        //{
+        //    var result = await _classService.GetByTeacherIdAsync(teacherId);
+        //    return Ok(result);
+        //}
 
         // GET /api/Classroom/{classId}/students
         [HttpGet("{classId}/students")]
