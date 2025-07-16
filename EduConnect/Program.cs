@@ -58,7 +58,6 @@ builder.Services.AddScoped<IYearRepository, YearRepository>();
 builder.Services.AddScoped<ISemesterRepository, SemesterRepository>();
 builder.Services.AddScoped<ITermRepository, TermRepository>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
-builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<IChatBotLogRepository, ChatBotLogRepository>();
 
 

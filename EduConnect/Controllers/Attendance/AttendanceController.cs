@@ -2,6 +2,7 @@
 using EduConnect.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduConnect.Controllers.Attendance
@@ -18,17 +19,7 @@ namespace EduConnect.Controllers.Attendance
             _attendanceService = attendanceService;
         }
 
-        //tim theo id
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetAttendanceById(string id)
-        {
-            var data = await _attendanceService.GetAttendanceByIdAsync(id);
-            if (data == null) 
-            { 
-                return NotFound(); 
-            }
-            return Ok(data);
-        }
+
 
         [HttpGet("course/{courseId}")]
         public async Task<IActionResult> GetByCourseId(string courseId)
@@ -37,23 +28,20 @@ namespace EduConnect.Controllers.Attendance
             return Ok(result);
         }
 
-        [HttpGet("fcm-token/{atId}")]
-        public async Task<IActionResult> GetTeacherFcmByAttendanceId(string atId)
-        {
-            var result = await _attendanceService.GetTeacherFcmByAttendanceIdAsync(atId);
-            if (result == null)
-                return NotFound("Can not find teacher token");
-
-            return Ok(result);
-        }
-
 
         //tao attendance
         [HttpPost]
         public async Task<IActionResult> CreateAttendance([FromBody] List<AttendanceCreate> dto)
         {
-            await _attendanceService.AddAttendanceAsync(dto);
-            return Ok("Created successfully");
+            var result = await _attendanceService.AddAttendanceAsync(dto);
+            if (result == null)
+                return Ok("Đã lưu điểm danh. Không gửi được notification (thiếu studentId hoặc fcmToken).");
+
+            return Ok(new
+            {
+                Message = "Lưu điểm danh thành công. Đã gửi thông báo.",
+                FirebaseMessageId = result
+            });
         }
 
         //update attendance
