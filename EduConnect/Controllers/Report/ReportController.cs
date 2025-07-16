@@ -27,15 +27,6 @@ namespace EduConnect.Controllers.Reports
             return Ok(reports);
         }
 
-        //tim noti dua vao id
-        // GET: /api/notifications/{NotiId}
-        [HttpGet("{ReportId}")]
-        public async Task<IActionResult> GetById(string ReportId)
-        {
-            var report = await _reportService.GetByIdAsync(ReportId);
-            //false trả về not found,true trả về info noti
-            return report == null ? NotFound() : Ok(report);
-        }
 
         //tao notification
         // POST: /api/notifications
