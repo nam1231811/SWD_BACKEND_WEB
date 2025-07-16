@@ -23,16 +23,6 @@ public class CourseController : ControllerBase
         return Ok(new { courseId = id, message = "Course created" });
     }
 
-    // Tìm theo ID
-    [HttpGet("{CourseId}")]
-    public async Task<IActionResult> GetById(string CourseId)
-    {
-        var result = await _service.GetByIdAsync(CourseId);
-        if (result == null) return NotFound("Course not found");
-
-        return Ok(result);
-    }
-
     // GET: api/course/teacher/{teacherId}
     [HttpGet("teacher/{teacherId}")]
     public async Task<IActionResult> GetByTeacherId(string teacherId)
