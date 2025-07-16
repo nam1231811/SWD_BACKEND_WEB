@@ -1,4 +1,5 @@
 ﻿using EduConnect.Data;
+using EduConnect.DTO;
 using EduConnect.DTO.Teacher;
 using EduConnect.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -56,6 +57,21 @@ namespace EduConnect.Repositories
                 teacher.Platform = platform;
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public async Task<TeacherFcmToken?> GetTeacherFcmByStudentIdAsync(string studentId)
+        {
+            return await _context.Students
+            .Where(s => s.StudentId == studentId)
+            .Include(s => s.Class)
+                .ThenInclude(c => c.Teacher)
+            .Select(s => new TeacherFcmToken
+            {
+                TeacherId = s.Class.Teacher.TeacherId,
+                FcmToken = s.Class.Teacher.FcmToken,
+                Platform = s.Class.Teacher.Platform
+            })
+            .FirstOrDefaultAsync();
         }
     }
 

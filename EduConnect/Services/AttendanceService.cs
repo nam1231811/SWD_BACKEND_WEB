@@ -7,13 +7,17 @@ namespace EduConnect.Services
     public class AttendanceService : IAttendanceService
     {
         private readonly IAttendanceRepository _attendanceRepository;
+        private readonly ITeacherRepository _eacherRepository;
+        private readonly INotificationService _notificationService;
 
-        public AttendanceService(IAttendanceRepository attendanceRepository)
+        public AttendanceService(IAttendanceRepository attendanceRepository, ITeacherRepository eacherRepository, INotificationService notificationService)
         {
             _attendanceRepository = attendanceRepository;
+            _eacherRepository = eacherRepository;
+            _notificationService = notificationService;
         }
 
-        public async Task AddAttendanceAsync(List<AttendanceCreate> dto)
+        public async Task<string?> AddAttendanceAsync(List<AttendanceCreate> dto)
         {
             var list = dto.Select(dto => new Attendance
             {
@@ -27,6 +31,25 @@ namespace EduConnect.Services
             }).ToList();
 
             await _attendanceRepository.AddAttendanceAsync(list);
+
+            var studentId = dto.FirstOrDefault()?.StudentId;
+            if (string.IsNullOrEmpty(studentId))
+            {
+                return null;
+            }
+            var fcmInfo = await _eacherRepository.GetTeacherFcmByStudentIdAsync(studentId);
+            if (fcmInfo == null || string.IsNullOrEmpty(fcmInfo.FcmToken)) { 
+                return null;
+            }
+            var notification = new AttendanceNotification
+            {
+                FcmToken = fcmInfo.FcmToken,
+                Title = "Thông báo điểm danh",
+                Body = "Một học sinh vừa được điểm danh.",
+                Platform = fcmInfo.Platform
+            };
+
+            return await _notificationService.SendAttendanceNotificationAsync(notification);
         }
 
         public async Task<AttendanceCreate?> GetAttendanceByIdAsync(string id)
@@ -99,9 +122,6 @@ namespace EduConnect.Services
             return await _attendanceRepository.DeleteAllByCourseIdAsync(courseId);
         }
 
-        public async Task<TeacherFcmToken?> GetTeacherFcmByAttendanceIdAsync(string atId)
-        {
-            return await _attendanceRepository.GetTeacherFcmByAttendanceIdAsync(atId);
-        }
+
     }
 }
