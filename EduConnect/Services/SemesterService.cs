@@ -79,4 +79,16 @@ public class SemesterService : ISemesterService
         await _repo.DeleteAsync(semester);
         return true;
     }
+    public async Task<List<SemesterCreate>> GetBySchoolYearIdAsync(string schoolYearId)
+    {
+        var list = await _repo.GetBySchoolYearIdAsync(schoolYearId);
+        return list.Select(s => new SemesterCreate
+        {
+            SemesterName = s.SemesterName,
+            StartDate = s.StartDate ?? default,
+            EndDate = s.EndDate ?? default,
+            SchoolYearID = s.SchoolYearID,
+            Status = s.Status
+        }).ToList();
+    }
 }

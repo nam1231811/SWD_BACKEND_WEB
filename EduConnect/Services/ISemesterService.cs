@@ -9,4 +9,5 @@ public interface ISemesterService
     Task<string> CreateAsync(SemesterCreate dto);
     Task<bool> UpdateAsync(string id, UpdateSemester dto);
     Task<bool> DeleteAsync(string id);
+    Task<List<SemesterCreate>> GetBySchoolYearIdAsync(string schoolYearId);
 }
