@@ -9,5 +9,6 @@ namespace EduConnect.Repositories
         Task<Semester> AddAsync(Semester semester);
         Task UpdateAsync(Semester semester);
         Task DeleteAsync(Semester semester);
+        Task<List<Semester>> GetBySchoolYearIdAsync(string schoolYearId);
     }
 }

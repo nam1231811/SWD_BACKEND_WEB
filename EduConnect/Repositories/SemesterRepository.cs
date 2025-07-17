@@ -41,4 +41,10 @@ public class SemesterRepository : ISemesterRepository
         _context.Semesters.Remove(semester);
         await _context.SaveChangesAsync();
     }
+    public async Task<List<Semester>> GetBySchoolYearIdAsync(string schoolYearId)
+    {
+        return await _context.Semesters
+            .Where(s => s.SchoolYearID == schoolYearId)
+            .ToListAsync();
+    }
 }

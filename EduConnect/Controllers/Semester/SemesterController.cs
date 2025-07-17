@@ -58,5 +58,13 @@ namespace EduConnect.Controllers.Semester
 
             return Ok("Semester deleted");
         }
+
+        // GET: /api/Semester/schoolyear/{schoolYearId}
+        [HttpGet("schoolyear/{schoolYearId}")]
+        public async Task<IActionResult> GetBySchoolYearId(string schoolYearId)
+        {
+            var result = await _semesterService.GetBySchoolYearIdAsync(schoolYearId);
+            return Ok(result);
+        }
     }
 }
