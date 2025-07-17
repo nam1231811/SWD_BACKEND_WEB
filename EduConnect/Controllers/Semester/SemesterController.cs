@@ -15,17 +15,23 @@ namespace EduConnect.Controllers.Semester
             _semesterService = semesterService;
         }
 
-        // Tìm học kỳ theo ID
-        // GET: /api/semesters/{SemesterId}
-        [HttpGet("{SemesterId}")]
-        public async Task<IActionResult> GetSemesterById(string SemesterId)
+        [HttpGet]
+        public async Task<IActionResult> GetSemester([FromQuery] string? semesterId, [FromQuery] string? schoolYearId)
         {
-            var result = await _semesterService.GetByIdAsync(SemesterId);
-            if (result == null)
+            if (!string.IsNullOrEmpty(semesterId))
             {
-                return NotFound("Semester not found");
+                var result = await _semesterService.GetByIdAsync(semesterId);
+                if (result == null) return NotFound("Semester not found");
+                return Ok(result);
             }
-            return Ok(result);
+
+            if (!string.IsNullOrEmpty(schoolYearId))
+            {
+                var result = await _semesterService.GetBySchoolYearIdAsync(schoolYearId);
+                return Ok(result);
+            }
+
+            return BadRequest("You must provide either semesterId or schoolYearId");
         }
 
         // Tạo mới học kỳ
@@ -57,14 +63,6 @@ namespace EduConnect.Controllers.Semester
             if (!success) return NotFound("Semester not found");
 
             return Ok("Semester deleted");
-        }
-
-        // GET: /api/Semester/schoolyear/{schoolYearId}
-        [HttpGet("schoolyear/{schoolYearId}")]
-        public async Task<IActionResult> GetBySchoolYearId(string schoolYearId)
-        {
-            var result = await _semesterService.GetBySchoolYearIdAsync(schoolYearId);
-            return Ok(result);
         }
     }
 }
