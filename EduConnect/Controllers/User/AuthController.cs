@@ -59,6 +59,34 @@ namespace EduConnect.Controllers.User
             return Ok(response);
         }
 
+        // Controllers/User/AuthController.cs
+        [HttpPost("login-google")]
+        public async Task<IActionResult> LoginWithGoogle([FromBody] GoogleAuthSettings request)
+        {
+            try
+            {
+                var response = await _authService.GoogleLoginAsync(request);
+
+                // Lưu token vào cookie
+                Response.Cookies.Append("jwt", response.Token, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict,
+                    Expires = DateTimeOffset.UtcNow.AddHours(1)
+                });
+
+                return Ok(response); 
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    message = "Google login failed: " + ex.Message
+                });
+            }
+        }
+
         //reset mat khau
         [HttpPost("reset-password")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPassword dto)

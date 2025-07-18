@@ -1,6 +1,7 @@
 ﻿using EduConnect.DTO;
 using EduConnect.Entities;
 using EduConnect.Repositories;
+using Google.Apis.Auth;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Cryptography;
@@ -14,13 +15,68 @@ namespace EduConnect.Services
         private readonly JwtService _jwtService;
         private readonly PasswordHasher<User> _passwordHasher;
         private readonly IStudentRepository _studentRepository;
+        private readonly IConfiguration _configuration;
 
-        public AuthService(IUserRepository userRepository, JwtService jwtService, IStudentRepository studentRepository)
+        public AuthService(IUserRepository userRepository, JwtService jwtService, IStudentRepository studentRepository, IConfiguration configuration)
         {
             _userRepository = userRepository;
             _jwtService = jwtService;
             _passwordHasher = new PasswordHasher<User>();
             _studentRepository = studentRepository;
+            _configuration = configuration;
+        }
+
+        public async Task<LoginResponse> GoogleLoginAsync(GoogleAuthSettings request)
+        {
+            // Lay clientId tu appsettings
+            var clientId = _configuration["GoogleAuthSettings:ClientId"];
+
+            // Kiem tra token tu Google va xac minh dung cho app minh (clientId)
+            var settings = new GoogleJsonWebSignature.ValidationSettings
+            {
+                Audience = new[] { clientId } 
+            };
+            var payload = await GoogleJsonWebSignature.ValidateAsync(request.IdToken, settings);
+
+            // Kiem tra co ton tai nguoi dung 
+            var existingUser = await _userRepository.GetByEmailAsync(payload.Email);
+            // Neu chua co thi tao moi user moi tu thong tin google tra ve
+            if (existingUser == null)
+            {
+                // Neu chua co thi tao moi user
+                var newUser = new User
+                {
+                    UserId = Guid.NewGuid().ToString(),
+                    Email = payload.Email,
+                    FullName = payload.Name,
+                    FirstName = payload.FamilyName,
+                    LastName = payload.GivenName,
+                    UserImage = payload.Picture,
+                    Role = "Parent", 
+                    IsActive = true,
+                    CreateAt = DateTime.Now                
+                };
+
+                await _userRepository.AddUserAsync(newUser);
+                existingUser = newUser;
+
+                // tao moi doi tuong parent tuong ung
+                var newParent = new Parent
+                {
+                    UserId = newUser.UserId
+                };
+                await _userRepository.AddParentAsync(newParent);
+            }
+            // Tao JWT Token de client luu dang nhap
+            var token = _jwtService.GenerateToken(existingUser);
+            return new LoginResponse
+            {
+                Token = token,
+                UserId = existingUser.UserId,
+                FullName = existingUser.FullName,
+                Email = existingUser.Email,
+                Role = existingUser.Role
+            };
         }
 
         //dang nhap

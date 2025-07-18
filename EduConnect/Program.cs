@@ -1,4 +1,5 @@
 ﻿using EduConnect.Data;
+using EduConnect.DTO;
 using EduConnect.Entities;
 using EduConnect.Repositories;
 using EduConnect.Services;
@@ -13,15 +14,15 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+
 builder.Services.AddControllers();
 
-//them db context
+// ==================== CAU HINH DATABASE ====================
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-//them Service
+//==================== CAU HINH SERVICE ====================
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<JwtService>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
@@ -44,7 +45,7 @@ builder.Services.AddScoped<StudentStatusService>();
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<GroqService>();
 
-//them repository
+//==================== CAU HINH REPOSITORY ====================
 builder.Services.AddScoped<IScoreRepository, ScoreRepository>();
 builder.Services.AddScoped<IClassRepository, ClassRepository>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
@@ -61,7 +62,7 @@ builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<IChatBotLogRepository, ChatBotLogRepository>();
 
 
-//cau hinh JWT
+//==================== CAU HINH JWT ====================
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -100,7 +101,8 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-//them cors (cross-origin resource sharing)
+
+//==================== CAU HINH CORS ==================== (cross-origin resource sharing)
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -111,6 +113,9 @@ builder.Services.AddCors(options =>
               .AllowCredentials();
     });
 });
+
+builder.Services.Configure<GoogleAuthSettings>(
+    builder.Configuration.GetSection("GoogleAuthSettings"));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
