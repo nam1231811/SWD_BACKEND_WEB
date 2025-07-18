@@ -12,8 +12,10 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["EduConnect/EduConnect.csproj", "EduConnect/"]
-RUN dotnet restore "./EduConnect/EduConnect.csproj"
+#COPY ["EduConnect/EduConnect.csproj", "EduConnect/"]
+#RUN dotnet restore "./EduConnect/EduConnect.csproj"
+COPY ["EduConnect.csproj", "./"]
+RUN dotnet restore "./EduConnect.csproj"
 COPY . .
 WORKDIR "/src/EduConnect"
 RUN dotnet build "./EduConnect.csproj" -c $BUILD_CONFIGURATION -o /app/build
