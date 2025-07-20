@@ -34,20 +34,21 @@ public class ReportContentBuilder
         sb.AppendLine($"\n📊 Số lượng điểm đã nhập: {totalScoreCount}");
 
         var totalAttendance = _attendances.Count;
-        var totalAbsent = _attendances.Count(a => a.Participation != "present");
+        var totalAbsent = _attendances.Count(a => a.Participation?.ToLower() != "present");
         sb.AppendLine($"\n📝 Tổng lượt điểm danh: {totalAttendance}");
         sb.AppendLine($"🚫 Tổng số lượt vắng: {totalAbsent}");
 
         sb.AppendLine("\n👩‍🎓 Thông tin chi tiết học sinh:");
 
-        // Lặp qua từng học sinh
         foreach (var student in _students)
         {
             sb.AppendLine($"\n🔹 Mã học sinh: {student.StudentId}");
             sb.AppendLine($"👤 Họ tên: {student.FullName}");
 
-            // Tìm các attendance của học sinh này
-            var studentAttendances = _attendances.Where(a => a.StudentId == student.StudentId).ToList();
+            var studentAttendances = _attendances
+                .Where(a => a.StudentId == student.StudentId)
+                .OrderBy(a => a.Course.StartTime)
+                .ToList();
 
             if (studentAttendances.Count == 0)
             {
@@ -57,16 +58,21 @@ public class ReportContentBuilder
             {
                 foreach (var att in studentAttendances)
                 {
-                    var courseName = att.Course?.SubjectName ?? "Chưa rõ môn";
-                    sb.AppendLine($"📅 Môn: {courseName}");
-                    sb.AppendLine($"📍 Tham gia: {att.Participation}");
-                    sb.AppendLine($"📝 Ghi chú: {att.Note}");
-                    sb.AppendLine($"📚 Bài tập: {att.Homework}");
-                    sb.AppendLine($"🎯 Tập trung: {att.Focus}");
+                    var course = att.Course;
+                    var subject = course?.SubjectName ?? "Chưa rõ môn";
+                    var date = att.Course?.StartTime?.ToString("dd/MM/yyyy") ?? "Không rõ ngày";
+
+                    sb.AppendLine($"📅 Ngày: {date}");
+                    sb.AppendLine($"📚 Môn: {subject}");
+                    sb.AppendLine($"📍 Tham gia: {att.Participation ?? "Không rõ"}");
+                    sb.AppendLine($"📝 Ghi chú: {att.Note ?? "Không có"}");
+                    sb.AppendLine($"📘 Bài tập: {att.Homework ?? "Không có"}");
+                    sb.AppendLine($"🎯 Tập trung: {att.Focus ?? "Không có"}");
                     sb.AppendLine("---");
                 }
             }
         }
+
         return sb.ToString();
     }
 }
