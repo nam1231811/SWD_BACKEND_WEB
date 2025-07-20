@@ -158,6 +158,8 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+builder.Services.AddSingleton<FirebaseStorageService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
