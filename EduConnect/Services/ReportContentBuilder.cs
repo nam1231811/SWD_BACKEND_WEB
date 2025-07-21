@@ -1,75 +1,78 @@
-﻿using EduConnect.Entities;
-using System.Text;
+﻿using System.Text;
+using EduConnect.Entities;
 
 namespace EduConnect.Utils;
 
 public class ReportContentBuilder
 {
-    private readonly List<Student> _students;
-    private readonly List<Score> _scores;
-    private readonly List<Attendance> _attendances;
-    private readonly List<Course> _courses;
-
-    public ReportContentBuilder(
+    public string BuildReport(
+        Term term,
+        List<Classroom> classrooms,
         List<Student> students,
         List<Score> scores,
         List<Attendance> attendances,
         List<Course> courses)
     {
-        _students = students;
-        _scores = scores;
-        _attendances = attendances;
-        _courses = courses;
-    }
-
-    public string BuildReport(string mode, string className)
-    {
         var sb = new StringBuilder();
-        sb.AppendLine($"📘 Báo cáo học tập ({mode}) của lớp {className}");
-        sb.AppendLine($"Tổng số học sinh: {_students.Count}");
 
-        sb.AppendLine($"\n📚 Số tiết học đã diễn ra: {_courses.Count}");
+        // ===== TITLE =====
+        sb.Append("📄 **BÁO CÁO HỌC TẬP (" + term.Mode + ")**\n\n");
 
-        var totalScoreCount = _scores.Count;
-        sb.AppendLine($"\n📊 Số lượng điểm đã nhập: {totalScoreCount}");
+        // ===== HEADER =====
+        int totalStudents = students.Count;
+        int totalCourses = courses.Count;
+        int totalScores = scores.Count;
+        int totalAttendances = attendances.Count;
+        int totalAbsences = attendances.Count(a => a.Participation == "Vắng");
 
-        var totalAttendance = _attendances.Count;
-        var totalAbsent = _attendances.Count(a => a.Participation?.ToLower() != "present");
-        sb.AppendLine($"\n📝 Tổng lượt điểm danh: {totalAttendance}");
-        sb.AppendLine($"🚫 Tổng số lượt vắng: {totalAbsent}");
+        sb.Append($"👨‍🎓 Tổng số học sinh: {totalStudents}\n");
+        sb.Append($"📚 Số tiết học đã diễn ra: {totalCourses}\n");
+        sb.Append($"📝 Số lượng điểm đã nhập: {totalScores}\n");
+        sb.Append($"📅 Tổng lượt điểm danh: {totalAttendances}\n");
+        sb.Append($"❌ Tổng số lượt vắng: {totalAbsences}\n\n");
 
-        sb.AppendLine("\n👩‍🎓 Thông tin chi tiết học sinh:");
+        // ===== CHI TIẾT =====
+        sb.Append("🔍 **CHI TIẾT**\n\n");
 
-        foreach (var student in _students)
+        foreach (var student in students)
         {
-            sb.AppendLine($"\n🔹 Mã học sinh: {student.StudentId}");
-            sb.AppendLine($"👤 Họ tên: {student.FullName}");
-
-            var studentAttendances = _attendances
-                .Where(a => a.StudentId == student.StudentId)
-                .OrderBy(a => a.Course.StartTime)
+            var studentScores = scores
+                .Where(s => s.StudentId == student.StudentId)
                 .ToList();
 
-            if (studentAttendances.Count == 0)
+            var studentAttendances = attendances
+                .Where(a => a.StudentId == student.StudentId)
+                .ToList();
+
+            bool hasNote = studentAttendances.Any(a =>
+                !string.IsNullOrEmpty(a.Note) ||
+                !string.IsNullOrEmpty(a.Homework) ||
+                !string.IsNullOrEmpty(a.Focus));
+
+            if (hasNote)
             {
-                sb.AppendLine("📌 Không có dữ liệu điểm danh.");
-            }
-            else
-            {
+                sb.Append($"👦 Học sinh: {student.FullName}\n");
+
                 foreach (var att in studentAttendances)
                 {
-                    var course = att.Course;
-                    var subject = course?.SubjectName ?? "Chưa rõ môn";
-                    var date = att.Course?.StartTime?.ToString("dd/MM/yyyy") ?? "Không rõ ngày";
+                    string date = att.Course?.StartTime != null
+                        ? att.Course.StartTime.Value.ToString("dd/MM/yyyy")
+                        : "Không rõ";
 
-                    sb.AppendLine($"📅 Ngày: {date}");
-                    sb.AppendLine($"📚 Môn: {subject}");
-                    sb.AppendLine($"📍 Tham gia: {att.Participation ?? "Không rõ"}");
-                    sb.AppendLine($"📝 Ghi chú: {att.Note ?? "Không có"}");
-                    sb.AppendLine($"📘 Bài tập: {att.Homework ?? "Không có"}");
-                    sb.AppendLine($"🎯 Tập trung: {att.Focus ?? "Không có"}");
-                    sb.AppendLine("---");
+                    string subject = att.Course?.SubjectName ?? "Chưa rõ môn";
+                    string participation = att.Participation ?? "Không rõ";
+                    string note = att.Note ?? "Không có";
+                    string homework = att.Homework ?? "Không có";
+                    string focus = att.Focus ?? "Không có";
+
+                    sb.Append($"📅 {date} - {subject}\n");
+                    sb.Append($"➡️ Tham gia: {participation} | 🎯 Tập trung: {focus}\n");
+                    sb.Append($"📝 Ghi chú: {note}\n");
+                    sb.Append($"📘 Bài tập: {homework}\n");
+                    sb.Append("---\n");
                 }
+
+                sb.Append("\n"); // spacing giữa các học sinh
             }
         }
 
