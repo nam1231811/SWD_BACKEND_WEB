@@ -1,5 +1,6 @@
 ﻿using EduConnect.DTO;
 using EduConnect.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduConnect.Controllers;
@@ -16,6 +17,7 @@ public class ScoreController : ControllerBase
     }
 
     // Nhập điểm
+    [Authorize(Roles = "Teacher")]
     [HttpPost]
     public async Task<IActionResult> CreateScore([FromBody] ScoreCreate dto)
     {
@@ -24,6 +26,7 @@ public class ScoreController : ControllerBase
     }
 
     // Cập nhật điểm
+    [Authorize(Roles = "Teacher,Admin")]
     [HttpPut("{ScoreId}")]
     public async Task<IActionResult> UpdateScore([FromQuery] string scoreId, [FromBody] UpdateScore dto)
     {

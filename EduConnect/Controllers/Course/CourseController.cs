@@ -1,5 +1,6 @@
 ﻿using EduConnect.DTO;
 using EduConnect.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduConnect.Controllers;
@@ -16,6 +17,8 @@ public class CourseController : ControllerBase
     }
 
     // Tạo tiết học mới
+
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CourseCreate dto)
     {
@@ -24,6 +27,7 @@ public class CourseController : ControllerBase
     }
 
     // GET: api/course/teacher/{teacherId}
+    [Authorize(Roles = "Teacher")]
     [HttpGet("teacher/{teacherId}")]
     public async Task<IActionResult> GetByTeacherId(string teacherId)
     {
@@ -32,6 +36,7 @@ public class CourseController : ControllerBase
     }
 
     // GET: api/course/class/{classId}
+    [Authorize(Roles = "Teacher,Parent")]
     [HttpGet("class/{classId}")]
     public async Task<IActionResult> GetByClassId(string classId)
     {
@@ -40,6 +45,7 @@ public class CourseController : ControllerBase
     }
 
     // PUT: api/course/status
+    [Authorize(Roles = "Admin")]
     [HttpPut("status")]
     public async Task<IActionResult> UpdateStatus([FromBody] UpdateCourse dto)
     {
