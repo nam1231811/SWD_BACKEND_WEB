@@ -13,7 +13,7 @@ namespace EduConnect.Services
             {
                 FirebaseApp.Create(new AppOptions
                 {
-                    Credential = GoogleCredential.FromFile("edunotification-d5eb2-firebase-adminsdk-fbsvc-1d468d18a3.json")
+                    Credential = GoogleCredential.FromFile("edunotification-d5eb2-firebase-adminsdk-fbsvc-3f24380f6a.json")
                 });
             }
         }
