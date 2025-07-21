@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EduConnect.Controllers
 {
     [ApiController]
-    [Route("api/upload")]
+    [Route("api/Upload")]
     public class UploadController : ControllerBase
     {
         private readonly FirebaseStorageService _firebaseService;

@@ -2,7 +2,6 @@
 using EduConnect.Entities;
 using EduConnect.Utils;
 using EduConnect.Data;
-using EduConnect.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace EduConnect.Services;
@@ -23,7 +22,8 @@ public class ReportGenerationService
         var term = await _context.Terms.FindAsync(input.TermId);
         var @class = await _context.Classrooms.FindAsync(input.ClassId);
 
-        if (term == null || @class == null) return "Dữ liệu không hợp lệ.";
+        if (term == null || @class == null)
+            return "Dữ liệu không hợp lệ.";
 
         var students = await _studentQueryService.GetStudentsByClassIdAsync(input.ClassId!);
         var studentIds = students.Select(s => s.StudentId).ToList();
@@ -37,9 +37,9 @@ public class ReportGenerationService
                 s.Semester.StartDate.HasValue &&
                 s.Semester.EndDate.HasValue
             )
-            .ToListAsync(); // NGẮT QUERY Ở ĐÂY
+            .ToListAsync();
 
-        // Sau đó lọc ở phía C# (EF không xử lý nữa)
+        // Lọc theo thời gian kỳ học trong C#
         scores = scores
             .Where(s =>
                 s.Semester!.StartDate!.Value.ToDateTime(TimeOnly.MinValue) >= term.StartTime!.Value &&
@@ -71,7 +71,10 @@ public class ReportGenerationService
             )
             .ToListAsync();
 
-        var builder = new ReportContentBuilder(students, scores, attendances, courses);
-        return builder.BuildReport(term.Mode ?? "Monthly", @class.ClassName ?? "Lớp học");
+        // ✅ Khởi tạo bằng constructor mặc định
+        var builder = new ReportContentBuilder();
+
+        // ✅ Truyền toàn bộ dữ liệu vào phương thức BuildReport
+        return builder.BuildReport(term, new List<Classroom> { @class }, students, scores, attendances, courses);
     }
 }
