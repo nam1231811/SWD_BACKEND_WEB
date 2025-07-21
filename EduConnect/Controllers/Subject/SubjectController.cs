@@ -1,6 +1,7 @@
 ﻿using EduConnect.DTO;
 using EduConnect.Entities;
 using EduConnect.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +19,8 @@ namespace EduConnect.Controllers.Subject
         }
 
         //tim sub theo id
-        // GET: /api/subjects/{SubjectId}
+        // GET: /api/subjects/{SubjectId}'
+        [Authorize(Roles = "Teacher,Parent")]
         [HttpGet("{SubjectId}")]
         public async Task<IActionResult> GetSubjectById(String SubjectId)
         {
@@ -32,6 +34,7 @@ namespace EduConnect.Controllers.Subject
 
         //tao subject
         // POST: /api/subjects
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateSubject([FromBody] SubjectCreated dto)
         {
@@ -41,6 +44,7 @@ namespace EduConnect.Controllers.Subject
 
         //update subject
         // PUT: /api/subjects/{SubjectId}
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public async Task<IActionResult> UpdateSubject([FromBody] SubjectCreated dto)
         {
@@ -50,6 +54,7 @@ namespace EduConnect.Controllers.Subject
 
         //delete Subject
         // DELETE: /api/subjects/{SubjectId}
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{SubjectId}")]
         public async Task<IActionResult> DeleteSubject(string SubjectId)
         {

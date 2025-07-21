@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EduConnect.Controllers.SchoolYear
 {
-    //[Authorize(Roles = "Teacher")]
+    [Authorize(Roles = "Teacher,Parent")]
     [Route("api/[controller]")]
     [ApiController]
     public class SchoolYearController : ControllerBase

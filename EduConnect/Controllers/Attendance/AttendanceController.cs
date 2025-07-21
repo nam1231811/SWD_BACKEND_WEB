@@ -20,7 +20,7 @@ namespace EduConnect.Controllers.Attendance
         }
 
 
-
+        [Authorize(Roles = "Teacher,Parent")]
         [HttpGet("course/{courseId}")]
         public async Task<IActionResult> GetByCourseId(string courseId)
         {
@@ -30,6 +30,7 @@ namespace EduConnect.Controllers.Attendance
 
 
         //tao attendance
+        [Authorize(Roles = "Teacher")]
         [HttpPost]
         public async Task<IActionResult> CreateAttendance([FromBody] List<AttendanceCreate> dto)
         {
@@ -45,6 +46,7 @@ namespace EduConnect.Controllers.Attendance
         }
 
         //update attendance
+        [Authorize(Roles = "Teacher")]
         [HttpPut]
         public async Task<IActionResult> UpdateAttendance([FromBody] AttendanceCreate dto)
         {
@@ -52,6 +54,7 @@ namespace EduConnect.Controllers.Attendance
             return Ok("Updated");
         }
 
+        [Authorize(Roles = "Teacher,Parent")]
         [HttpGet("class/{classId}")]
         public async Task<IActionResult> GetByClassId(string classId)
         {
@@ -60,6 +63,7 @@ namespace EduConnect.Controllers.Attendance
         }
 
         //delete
+        [Authorize(Roles = "Teacher")]
         [HttpDelete("course/{courseId}")]
         public async Task<IActionResult> DeleteAllByCourseId(string courseId)
         {

@@ -1,5 +1,6 @@
 ﻿using EduConnect.DTO;
 using EduConnect.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +18,7 @@ namespace EduConnect.Controllers.Term
         }
 
         //get tem id
+        [Authorize(Roles = "Teacher")]
         [HttpGet("{TermId}")]
         public async Task<IActionResult> GetTermById(String TermId)
         {
@@ -29,6 +31,7 @@ namespace EduConnect.Controllers.Term
         }
 
         //tao term moi
+        [Authorize(Roles = "Teacher")]
         [HttpPost]
         public async Task<IActionResult> CreateTerm([FromBody] TermCreated dto)
         {
@@ -37,6 +40,7 @@ namespace EduConnect.Controllers.Term
         }
 
         //update term
+        [Authorize(Roles = "Teacher")]
         [HttpPut]
         public async Task<IActionResult> UpdateTerm([FromBody] TermCreated dto)
         {

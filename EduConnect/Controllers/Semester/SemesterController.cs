@@ -1,5 +1,6 @@
 ﻿using EduConnect.DTO;
 using EduConnect.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduConnect.Controllers.Semester
@@ -15,6 +16,7 @@ namespace EduConnect.Controllers.Semester
             _semesterService = semesterService;
         }
 
+        [Authorize(Roles = "Teacher,Parent")]
         [HttpGet]
         public async Task<IActionResult> GetSemester([FromQuery] string? semesterId, [FromQuery] string? schoolYearId)
         {
@@ -36,6 +38,7 @@ namespace EduConnect.Controllers.Semester
 
         // Tạo mới học kỳ
         // POST: /api/semesters
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateSemester([FromBody] SemesterCreate dto)
         {
@@ -45,6 +48,7 @@ namespace EduConnect.Controllers.Semester
 
         // Cập nhật học kỳ
         // PUT: /api/semesters/{{SemesterId}}
+        [Authorize(Roles = "Admin")]
         [HttpPut("{SemesterId}")]
         public async Task<IActionResult> UpdateSemester(string SemesterId, [FromBody] UpdateSemester dto)
         {
@@ -56,6 +60,7 @@ namespace EduConnect.Controllers.Semester
 
         // Xoá học kỳ
         // DELETE: /api/semesters/{SemesterId}
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{SemesterId}")]
         public async Task<IActionResult> DeleteSemester(string SemesterId)
         {

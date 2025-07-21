@@ -1,5 +1,6 @@
 ﻿using EduConnect.DTO;
 using EduConnect.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,6 +32,7 @@ namespace EduConnect.Controllers.Classroom
         //    return Ok(result);
         //}
 
+        [Authorize(Roles = "Teacher,Parent")]
         [HttpGet]
         public async Task<IActionResult> GetClass([FromQuery] string? classId, [FromQuery] string? teacherId)
         {
@@ -54,6 +56,7 @@ namespace EduConnect.Controllers.Classroom
 
 
         //tao class moi
+        [Authorize(Roles = "Teacher")]
         [HttpPost]
         public async Task<IActionResult> CreateClass([FromBody] ClassCreate dto)
         {
@@ -62,6 +65,7 @@ namespace EduConnect.Controllers.Classroom
         }
 
         //delete class 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{ClassId}")]
         public async Task<IActionResult> DeleteClass(string ClassId)
         {
@@ -70,6 +74,7 @@ namespace EduConnect.Controllers.Classroom
         }
 
         //update class
+        [Authorize(Roles = "Teacher,Admin")]
         [HttpPut]
         public async Task<IActionResult> UpdateClass([FromBody] ClassCreate dto)
         {
@@ -86,6 +91,7 @@ namespace EduConnect.Controllers.Classroom
         //}
 
         // GET /api/Classroom/{classId}/students
+        [Authorize(Roles = "Teacher,Parent")]
         [HttpGet("{classId}/students")]
         public async Task<IActionResult> GetStudentsByClassId(string classId)
         {

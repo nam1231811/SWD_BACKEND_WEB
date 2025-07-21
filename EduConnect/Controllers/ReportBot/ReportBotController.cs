@@ -1,9 +1,11 @@
 ﻿using EduConnect.DTO;
 using EduConnect.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduConnect.Controllers.Report;
 
+[Authorize(Roles = "Teacher,Parent")]
 [ApiController]
 [Route("api/report")]
 public class ReportBotController : ControllerBase

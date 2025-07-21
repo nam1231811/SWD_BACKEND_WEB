@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EduConnect.Controllers.Reports
 {
-    [Authorize(Roles = "Teacher")]
+
     [Route("api/[controller]")]
     [ApiController]
     public class ReportController : ControllerBase
@@ -20,6 +20,7 @@ namespace EduConnect.Controllers.Reports
 
         //tim theo class id, liet ke toan bo noti trong class do
         //GET: /api/notifications?classId=xyz
+        [Authorize(Roles = "Teacher,Parent")]
         [HttpGet]
         public async Task<IActionResult> GetByClass(string classId)
         {
@@ -30,6 +31,7 @@ namespace EduConnect.Controllers.Reports
 
         //tao notification
         // POST: /api/notifications
+        [Authorize(Roles = "Teacher")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] ReportCreate dto)
         {
@@ -39,6 +41,7 @@ namespace EduConnect.Controllers.Reports
 
         //xoa notification
         // DELETE: /api/notifications/{id}
+        [Authorize(Roles = "Teacher,Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {

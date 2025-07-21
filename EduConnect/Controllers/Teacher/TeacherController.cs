@@ -1,10 +1,12 @@
 ﻿using EduConnect.DTO;
 using EduConnect.DTO.Teacher;
 using EduConnect.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduConnect.Controllers;
 
+[Authorize(Roles = "Teacher")]
 [ApiController]
 [Route("api/Teacher")]
 public class TeacherController : ControllerBase

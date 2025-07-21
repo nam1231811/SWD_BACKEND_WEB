@@ -1,11 +1,13 @@
 ﻿using EduConnect.DTO;
 using EduConnect.Repositories;
 using EduConnect.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduConnect.Controllers.AIChatBot
 {
+    [Authorize(Roles = "Parent")]
     [Route("api/[controller]")]
     [ApiController]
     public class ChatBotLogController : ControllerBase

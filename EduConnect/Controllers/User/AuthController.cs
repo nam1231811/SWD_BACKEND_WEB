@@ -1,6 +1,7 @@
 ﻿using EduConnect.DTO;
 using EduConnect.Entities;
 using EduConnect.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity.Data;
@@ -87,7 +88,9 @@ namespace EduConnect.Controllers.User
             }
         }
 
+
         //reset mat khau
+        [AllowAnonymous]
         [HttpPost("reset-password")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPassword dto)
         {
