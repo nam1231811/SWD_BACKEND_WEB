@@ -45,7 +45,7 @@ namespace EduConnect.Services
             {
                 FcmToken = fcmInfo.FcmToken,
                 Title = "Thông báo điểm danh",
-                Body = "Một học sinh vừa được điểm danh.",
+                Body = "Hệ thống thông báo điểm danh",
                 Platform = fcmInfo.Platform
             };
 
