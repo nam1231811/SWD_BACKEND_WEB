@@ -27,17 +27,22 @@ Bạn là trợ lý giáo vụ của hệ thống quản lý trường học. Nh
 Câu trả lời cần chính xác, rõ ràng và không dư thừa.
 ";
 
+        // ✅ Giới hạn chiều dài prompt (tính bằng ký tự, không phải token)
+        private const int MaxPromptLength = 6000;
+
         public GroqService(IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
             _httpClientFactory = httpClientFactory;
-            _apiKey = configuration["Groq:ApiKey"]; // ✅ Lấy từ appsettings.json
+            _apiKey = configuration["Groq:ApiKey"];
         }
 
         public async Task<string> AskAsync(string fullPrompt)
         {
             var client = _httpClientFactory.CreateClient();
-
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _apiKey);
+
+            // ✅ Cắt bớt prompt nếu quá dài
+            var truncatedPrompt = TruncatePrompt(fullPrompt, MaxPromptLength);
 
             var request = new
             {
@@ -45,7 +50,7 @@ Câu trả lời cần chính xác, rõ ràng và không dư thừa.
                 messages = new[]
                 {
                     new { role = "system", content = SystemPrompt },
-                    new { role = "user", content = fullPrompt }
+                    new { role = "user", content = truncatedPrompt }
                 },
                 temperature = 0.7,
                 max_tokens = 1000
@@ -61,5 +66,17 @@ Câu trả lời cần chính xác, rõ ràng và không dư thừa.
             dynamic result = JsonConvert.DeserializeObject<dynamic>(json);
             return result.choices[0].message.content.ToString();
         }
+
+        // ✅ Hàm cắt bớt nội dung nếu quá dài (ưu tiên lấy phần cuối prompt)
+        private string TruncatePrompt(string prompt, int maxLength)
+        {
+            if (string.IsNullOrWhiteSpace(prompt))
+                return prompt;
+
+            return prompt.Length <= maxLength
+                ? prompt
+                : prompt.Substring(prompt.Length - maxLength);
+        }
     }
 }
+
