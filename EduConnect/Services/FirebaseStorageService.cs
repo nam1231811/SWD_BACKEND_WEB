@@ -13,7 +13,7 @@ namespace EduConnect.Services
 
         public FirebaseStorageService(IWebHostEnvironment env)
         {
-            var path = Path.Combine(env.ContentRootPath, "chat-app-5396e-firebase-adminsdk-kq3dv-a89a4347b2.json");
+            var path = Path.Combine(env.ContentRootPath, "chat-app-5396e-firebase-adminsdk-kq3dv-90a99ca70c.json");
 
             // Khởi tạo Firebase app nếu chưa có
             if (FirebaseApp.DefaultInstance == null)
