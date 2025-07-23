@@ -44,6 +44,7 @@ builder.Services.AddHttpClient<GroqService>();
 builder.Services.AddScoped<StudentStatusService>();
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<GroqService>();
+builder.Services.AddScoped<QuestionAnalysisService>();
 builder.Services.AddHttpClient<GroqReportService>();
 builder.Services.AddScoped<StudentQueryService>();
 builder.Services.AddScoped<ReportGenerationService>();

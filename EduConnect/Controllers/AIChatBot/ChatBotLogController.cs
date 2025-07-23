@@ -13,43 +13,39 @@ namespace EduConnect.Controllers.AIChatBot
     public class ChatBotLogController : ControllerBase
     {
         private readonly GroqService _groqService;
-        private readonly StudentStatusService _studentStatusService;
+        private readonly QuestionAnalysisService _questionAnalysisService;
         private readonly IChatBotLogRepository _chatBotLogRepository;
 
         public ChatBotLogController(
             GroqService groqService,
-            StudentStatusService studentStatusService,
+            QuestionAnalysisService questionAnalysisService,
             IChatBotLogRepository chatBotLogRepository)
         {
             _groqService = groqService;
-            _studentStatusService = studentStatusService;
+            _questionAnalysisService = questionAnalysisService;
             _chatBotLogRepository = chatBotLogRepository;
         }
 
         [HttpPost("ask")]
         public async Task<IActionResult> Ask([FromBody] ChatRequest dto)
         {
-            // 🧠 Lấy thông tin học sinh + phụ huynh từ DB
-            var studentContext = await _studentStatusService.GenerateFullStudentContextAsync(dto.ParentId);
+            try
+            {
+                // 🎯 Phân tích câu hỏi và tạo prompt gọn nhẹ, phù hợp
+                var dynamicPrompt = await _questionAnalysisService.BuildRelevantPromptAsync(dto.ParentId, dto.MessageText);
 
-            // 🗨️ Tạo prompt gửi lên Groq API
-            var fullPrompt = $@"
-Dữ liệu hệ thống cung cấp:
+                // 🤖 Gửi lên Groq AI
+                var reply = await _groqService.AskAsync(dynamicPrompt);
 
-{studentContext}
+                // 📝 Ghi log
+                await _chatBotLogRepository.CreateLogAsync(dto.ParentId, dto.MessageText, reply);
 
-Câu hỏi của phụ huynh:
-""{dto.MessageText}""
-";
-
-            // 🤖 Gửi lên Groq để nhận phản hồi AI
-            var reply = await _groqService.AskAsync(fullPrompt);
-
-            // 📝 Ghi log lại câu hỏi - câu trả lời
-            await _chatBotLogRepository.CreateLogAsync(dto.ParentId, dto.MessageText, reply);
-
-            // 📦 Trả về cho client
-            return Ok(new { reply });
+                return Ok(new { reply });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }
