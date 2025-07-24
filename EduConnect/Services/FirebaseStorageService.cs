@@ -34,7 +34,14 @@ namespace EduConnect.Services
             //var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
             using var stream = file.OpenReadStream();
 
-            var uploadResult = await _storageClient.UploadObjectAsync(_bucket, fileName, file.ContentType, stream);
+            var uploadResult = await _storageClient.UploadObjectAsync(
+                bucket: _bucket,
+                objectName: fileName,
+                contentType: file.ContentType,
+                source: stream,
+                options: new UploadObjectOptions { PredefinedAcl = PredefinedObjectAcl.PublicRead }
+            );
+
             return $"https://firebasestorage.googleapis.com/v0/b/{_bucket}/o/{Uri.EscapeDataString(fileName)}?alt=media";
         }
     }
