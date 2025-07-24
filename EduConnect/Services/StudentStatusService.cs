@@ -272,11 +272,15 @@ namespace EduConnect.Services
                 var vnDay = TranslateDay(date.DayOfWeek);
                 var dateStr = date.ToString("dd/MM/yyyy");
 
-                var schedule = await _context.Courses
+                var allCourses = await _context.Courses
                     .Include(c => c.Teacher).ThenInclude(t => t.User)
-                    .Where(c => c.ClassId == student.ClassId && c.DayOfWeek == vnDay)
-                    .OrderBy(c => c.StartTime)
+                    .Where(c => c.ClassId == student.ClassId && c.StartTime.HasValue)
                     .ToListAsync();
+
+                var schedule = allCourses
+                    .Where(c => ConvertToVietnamTime(c.StartTime.Value).Date == date.Date)
+                    .OrderBy(c => c.StartTime)
+                    .ToList();
 
                 sb.AppendLine($"\n📆 LỊCH HỌC NGÀY {vnDay.ToUpper()} ({dateStr}):");
                 sb.AppendLine($"🧒 Học sinh: {student.FullName} ({student.StudentId})");
