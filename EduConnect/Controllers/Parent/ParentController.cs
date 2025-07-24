@@ -54,7 +54,7 @@ namespace EduConnect.Controllers.Parent
         //chinh sua profile
         // PUT: /api/parents/profile
         [HttpPut("profile")]
-        public async Task<IActionResult> UpdateProfile(IFormFile? imageFile, [FromForm] UpdateParentProfile dto)
+        public async Task<IActionResult> UpdateProfile([FromForm] UpdateParentProfile dto)
         {
 
             //lay mail trong token
@@ -62,37 +62,13 @@ namespace EduConnect.Controllers.Parent
             if (string.IsNullOrEmpty(email))
                 return Unauthorized("Email not found in token");
 
-            string? imagePath = null;
+            var result = await _parentService.UpdateProfileAsync(email, dto, dto.ImageUrl);
 
-            if (imageFile != null)
-            {
-                if (string.IsNullOrEmpty(_env.WebRootPath))
-                {
-                    return StatusCode(500, "Web root path is not configured.");
-                }
-                var savePath = Path.Combine(_env.WebRootPath, "images");
-                if (!Directory.Exists(savePath))
-                {
-                    Directory.CreateDirectory(savePath);
-                }
-                var fileName = Guid.NewGuid() + Path.GetExtension(imageFile.FileName);              
-
-                var filePath = Path.Combine(savePath, fileName);
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await imageFile.CopyToAsync(stream);
-                }
-
-                imagePath = "/images/" + fileName;
+            if (!result) 
+            { 
+                return NotFound("Không tìm thấy phụ huynh"); 
             }
 
-            //update thong tin
-            var success = await _parentService.UpdateProfileAsync(email, dto,imagePath);
-            //loi tra not found
-            if (!success)
-            {
-                return NotFound("Parent not found");
-            }
             //tra OK
             return Ok("Profile updated successfully");
         }
