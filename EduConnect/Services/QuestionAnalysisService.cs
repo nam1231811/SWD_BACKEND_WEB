@@ -38,7 +38,12 @@ namespace EduConnect.Services
 
             var student = students.First(); // Ưu tiên 1 học sinh nếu có nhiều
 
-            if (Regex.IsMatch(lower, @"(thông tin cá nhân|thông tin phụ huynh|tôi là ai)"))
+            if (Regex.IsMatch(lower, @"(con tôi|thông tin học sinh|học sinh của tôi|con của tôi|con|thông tin cá nhân của con)"))
+            {
+                var info = await _statusService.GetBasicStudentInfoAsync(parentId);
+                sb.AppendLine(info);
+            }
+            else if (Regex.IsMatch(lower, @"(thông tin cá nhân|tôi là ai|thông tin phụ huynh)"))
             {
                 var info = await _statusService.GetParentInfoAsync(parentId);
                 sb.AppendLine(info);
@@ -76,7 +81,7 @@ namespace EduConnect.Services
             else
             {
                 // fallback toàn bộ context
-                string context = await _statusService.GenerateStudentContextByTypeAsync(parentId, "scores"); // hoặc today, schedule...
+                string context = await _statusService.GenerateStudentContextByTypeAsync(parentId, "schedule"); // hoặc today, schedule...
                 sb.AppendLine("📎 Ngữ cảnh đầy đủ:");
                 sb.AppendLine(context);
             }
