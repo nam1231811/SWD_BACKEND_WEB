@@ -45,7 +45,7 @@ public class CourseController : ControllerBase
     }
 
     // PUT: api/course/status
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Teacher")]
     [HttpPut("status")]
     public async Task<IActionResult> UpdateStatus([FromBody] UpdateCourse dto)
     {
