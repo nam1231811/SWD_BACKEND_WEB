@@ -20,7 +20,8 @@ builder.Services.AddControllers();
 // ==================== CAU HINH DATABASE ====================
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
 
 //==================== CAU HINH SERVICE ====================
 builder.Services.AddScoped<IAuthService, AuthService>();
