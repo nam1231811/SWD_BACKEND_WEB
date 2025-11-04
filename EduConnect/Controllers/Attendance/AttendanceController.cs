@@ -34,15 +34,36 @@ namespace EduConnect.Controllers.Attendance
         [HttpPost]
         public async Task<IActionResult> CreateAttendance([FromBody] List<AttendanceCreate> dto)
         {
-            var result = await _attendanceService.AddAttendanceAsync(dto);
-            if (result == null)
-                return Ok("Đã lưu điểm danh. Không gửi được notification (thiếu studentId hoặc fcmToken).");
-
-            return Ok(new
+            try
             {
-                Message = "Lưu điểm danh thành công. Đã gửi thông báo.",
-                FirebaseMessageId = result
-            });
+                var result = await _attendanceService.AddAttendanceAsync(dto);
+
+                if (result == null)
+                {
+                    // 👉 Khi không gửi được FCM hoặc đã comment đoạn gửi FCM
+                    return Ok(new
+                    {
+                        Message = "✅ Điểm danh đã lưu thành công (chưa gửi thông báo)."
+                    });
+                }
+
+                // 👉 Khi lưu và gửi FCM thành công
+                return Ok(new
+                {
+                    Message = "✅ Lưu điểm danh thành công và đã gửi thông báo!",
+                    FirebaseMessageId = result
+                });
+            }
+            catch (Exception ex)
+            {
+                // 👉 Log lỗi và trả kết quả an toàn
+                Console.WriteLine($"[ERROR] Attendance POST: {ex.Message}");
+                return StatusCode(500, new
+                {
+                    Message = "❌ Lỗi khi lưu điểm danh hoặc gửi thông báo.",
+                    Error = ex.Message
+                });
+            }
         }
 
         //update attendance

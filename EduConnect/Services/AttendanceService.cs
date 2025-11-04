@@ -32,24 +32,25 @@ namespace EduConnect.Services
 
             await _attendanceRepository.AddAttendanceAsync(list);
 
-            var studentId = dto.FirstOrDefault()?.StudentId;
-            if (string.IsNullOrEmpty(studentId))
-            {
-                return null;
-            }
-            var fcmInfo = await _eacherRepository.GetTeacherFcmByStudentIdAsync(studentId);
-            if (fcmInfo == null || string.IsNullOrEmpty(fcmInfo.FcmToken)) { 
-                return null;
-            }
-            var notification = new AttendanceNotification
-            {
-                FcmToken = fcmInfo.FcmToken,
-                Title = "Thông báo điểm danh",
-                Body = "Hệ thống thông báo điểm danh",
-                Platform = fcmInfo.Platform
-            };
+            //var studentId = dto.FirstOrDefault()?.StudentId;
+            //if (string.IsNullOrEmpty(studentId))
+            //{
+            //    return null;
+            //}
+            //var fcmInfo = await _eacherRepository.GetTeacherFcmByStudentIdAsync(studentId);
+            //if (fcmInfo == null || string.IsNullOrEmpty(fcmInfo.FcmToken)) { 
+            //    return null;
+            //}
+            //var notification = new AttendanceNotification
+            //{
+            //    FcmToken = fcmInfo.FcmToken,
+            //    Title = "Thông báo điểm danh",
+            //    Body = "Hệ thống thông báo điểm danh",
+            //    Platform = fcmInfo.Platform
+            //};
 
-            return await _notificationService.SendAttendanceNotificationAsync(notification);
+            //return await _notificationService.SendAttendanceNotificationAsync(notification);
+            return "Điểm danh đã được lưu thành công (chưa gửi thông báo).";
         }
 
         public async Task<AttendanceCreate?> GetAttendanceByIdAsync(string id)
