@@ -13,6 +13,8 @@ using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+// Khởi tạo Firebase từ ENV
+FirebaseInitializer.Initialize();
 
 
 builder.Services.AddControllers();
