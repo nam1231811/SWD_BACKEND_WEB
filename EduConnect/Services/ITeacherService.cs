@@ -11,4 +11,5 @@ public interface ITeacherService
     Task DeleteAsync(string userId);
 
     Task UpdateFcmTokenAsync(string userId, UpdateFcmToken dto);
+    Task<ParentProfile?> GetParentProfileByStudentIdAsync(string studentId);
 }

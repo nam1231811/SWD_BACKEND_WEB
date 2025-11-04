@@ -73,6 +73,23 @@ namespace EduConnect.Repositories
             })
             .FirstOrDefaultAsync();
         }
+
+        public async Task<ParentProfile?> GetParentProfileByStudentIdAsync(string studentId)
+        {
+            return await _context.Students
+                   .Where(s => s.StudentId == studentId)
+                   .Include(s => s.Parent)
+               .ThenInclude(p => p.User)
+           .Select(s => new ParentProfile
+       {
+           ParentId = s.Parent.ParentId,
+           FullName = $"{s.Parent.User.LastName} {s.Parent.User.FirstName}",
+           PhoneNumber = s.Parent.User.PhoneNumber,
+           Email = s.Parent.User.Email,
+           UserImage = s.Parent.User.UserImage,
+       })
+       .FirstOrDefaultAsync();
+        }
     }
 
 }

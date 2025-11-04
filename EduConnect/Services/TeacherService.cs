@@ -58,6 +58,11 @@ public class TeacherService : ITeacherService
     {
         await _repo.UpdateFcmTokenAsync(userId, dto.FcmToken, dto.Platform);
     }
+
+    public async Task<ParentProfile?> GetParentProfileByStudentIdAsync(string studentId)
+    {
+        return await _repo.GetParentProfileByStudentIdAsync(studentId);
+    }
 }
 
 
