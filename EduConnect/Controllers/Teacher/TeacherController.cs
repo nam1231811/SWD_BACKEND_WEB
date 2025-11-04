@@ -49,6 +49,14 @@ public class TeacherController : ControllerBase
         await _service.UpdateFcmTokenAsync(userId, dto);
         return NoContent();
     }
+
+    [HttpGet("parent-profile/{studentId}")]
+    public async Task<IActionResult> GetParentProfile(string studentId)
+    {
+        var parentProfile = await _service.GetParentProfileByStudentIdAsync(studentId);
+        if (parentProfile == null) return NotFound(new { message = "Khong tim thay phu huynh cua hoc sinh" });
+        return Ok(parentProfile);
+    }
 }
 
 

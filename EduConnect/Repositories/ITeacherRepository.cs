@@ -12,5 +12,6 @@ namespace EduConnect.Repositories
         Task DeleteAsync(string userId);
         Task UpdateFcmTokenAsync(string userId, string? fcmToken, string? platform);
         Task<TeacherFcmToken?> GetTeacherFcmByStudentIdAsync(string studentId);
+        Task<ParentProfile?> GetParentProfileByStudentIdAsync(string studentId);
     }
 }
